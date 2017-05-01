@@ -242,10 +242,12 @@ body:not(.frontend).portaltype-object {
 		.slick-prev, .slick-next {
 		    width: 80px;
 		    height: 80px;
-		    margin-top: -40px;
+		    margin-top: -40px !important;
 		    opacity: 0;
 		    transition: opacity 0.2s ease-in;
 		    text-shadow: none;
+
+
 		}
 
 		.slick-prev {
@@ -445,11 +447,11 @@ body.frontend.portaltype-object:not(.userrole-authenticated) {
 	/* Object details */
 
 	#slide-description {
-		.universCn();
+		.CalibreRegular();
 	}
 
 	#slide-count {
-		.universCn();
+		.CalibreRegular();
 	}
 
 	@media (max-width: 991px) {
@@ -722,6 +724,11 @@ body.portaltype-object {
 	.slick-next, .slick-prev {
 		border: none;
 		outline: none !important;
+		margin-top: -40px;
+
+		@media(max-width: 480px) {
+			margin-top: -20px;
+		}
 
 		&:focus {
 			outline: none !important;
@@ -1034,7 +1041,7 @@ body.template-online_experience_view,
 	    padding: 0;
 	    word-wrap: break-word;
 	    text-transform: uppercase;
-	    .universCn();
+	    .CalibreRegular();
 	}
 
 	.entry .info h3::after {

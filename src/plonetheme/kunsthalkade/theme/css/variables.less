@@ -1,77 +1,59 @@
 /* Variables */
-/*@font-face {
-    font-family: 'UniversCn';
-    src: url('++resource++plonetheme.kunsthalkade/UniversLTStd-Cn.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Cn.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Cn.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}*/
 
 @font-face {
-    font-family: 'UniversCn';
-    src: url('++resource++plonetheme.kunsthalkade/Univers-Condensed.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/Univers-Condensed.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/Univers-Condensed.otf') format('opentype');
+    font-family: 'CalibreRegular';
+    src: url('++resource++plonetheme.kunsthalkade/Calibre-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'UniversLight';
-    src: url('++resource++plonetheme.kunsthalkade/UniversLTStd-Light.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Light.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Light.otf') format('opentype');
+    font-family: 'CalibreLight';
+    src: url('++resource++plonetheme.kunsthalkade/Calibre-Light.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'UniversLightCn';
-    src: url('++resource++plonetheme.kunsthalkade/UniversLTStd-LightCn.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-LightCn.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-LightCn.otf') format('opentype');
+    font-family: 'CalibreMedium';
+    src: url('++resource++plonetheme.kunsthalkade/Calibre-Medium.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'UniversObl';
-    src: url('++resource++plonetheme.kunsthalkade/UniversLTStd-Obl.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Obl.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd-Obl.otf') format('opentype');
+    font-family: 'CalibreLightItalic';
+    src: url('++resource++plonetheme.kunsthalkade/Calibre-LightItalic.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'UniversRoman';
-    src: url('++resource++plonetheme.kunsthalkade/UniversLTStd.eot?#iefix'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd.woff') format('woff'),
-         url('++resource++plonetheme.kunsthalkade/UniversLTStd.otf') format('opentype');
+    font-family: 'CalibreRegular';
+    src: url('++resource++plonetheme.kunsthalkade/Calibre-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 
-.universCn() {
-    font-family: 'UniversCn', Arial, sans-serif;
+.CalibreRegular() {
+    font-family: 'CalibreRegular', Arial, sans-serif;
 }
 
-.universLight() {
-    font-family: 'UniversLight', Arial, sans-serif;
+.CalibreLight() {
+    font-family: 'CalibreLight', Arial, sans-serif;
 }
 
-.universLightCn() {
-    font-family: 'UniversLightCn', Arial, sans-serif;
+.CalibreMedium() {
+    font-family: 'CalibreMedium', Arial, sans-serif;
 }
 
-.universObl() {
-    font-family: 'UniversObl', Arial, sans-serif;
+.CalibreLightItalic() {
+    font-family: 'CalibreLightItalic', Arial, sans-serif;
 }
 
-.universRoman() {
-    font-family: 'UniversRoman', Arial, sans-serif;
+.CalibreRegular() {
+    font-family: 'CalibreRegular', Arial, sans-serif;
 }
 
 .backendFont() {
@@ -80,7 +62,18 @@
     line-height: 1.42857143;
 }
 
-@brand-primary: #7BB0E7;
+/* Website colors */
+@brand-beige: #fbede7;
+@brand-primary: #000000;
+@brand-yellow: #fdf17b;
+@brand-pink: #faa19d;
+@brand-orange: #efad7d;
+@brand-green: #83b697;
+@brand-blue: #9ecae7;
+@brand-gray: #666666;
+@brand-lightgray: #8d8c8c;
+
+/* Other colors (backend) - CMS */
 @gray-dark: lighten(black, 25%);
 @gray: lighten(black, 50%);
 @white-faded: fade(white, 80%);

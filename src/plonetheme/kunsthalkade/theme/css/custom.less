@@ -820,6 +820,8 @@ abbr[title],
 abbr[data-original-title],
 abbr {
 	border-bottom: 0px;
+	text-decoration-style: inherit;
+    text-decoration-line: none;
 }
 
 .page-container, footer {
@@ -856,7 +858,7 @@ body:not(.frontend) {
 }
 
 .buttonField() {
-	.universCn();
+	.CalibreRegular();
     margin: 0 auto;
     display: block;
     padding: 17px;
@@ -890,7 +892,7 @@ body:not(.frontend) {
 }
 
 .inputField() {
-	.universLight();
+	.CalibreLight();
     margin: 0 auto;
     display: block;
     padding: 16px;
@@ -930,26 +932,25 @@ body:not(.frontend) {
 .documentLayout() {
 	h1 {
 		color: #000000;
-		.universCn();
-		font-size: 3.750em;
-		font-weight: 400;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		.CalibreMedium();
+	    margin-bottom: 12px;
+	    font-size: 2.750em;
+	    font-weight: 400;
+	    letter-spacing: 0.01em;
 
 		@media (max-width: 768px) {
-			font-size: 35px;
 		}
 	}
 
 	div {
-		.universLight();
+		.CalibreLight();
     	font-size: 16px;
     	letter-spacing: 0.05em;
     	color: #000000;
 	}
 
     ol li, ul li {
-    	.universLight();
+    	.CalibreLight();
     	letter-spacing: 0.05em;
     	color: #000000;
     	font-size: 17px;
@@ -985,11 +986,11 @@ body:not(.frontend) {
 		max-width: 900px;
 	}
 
-	table tr:nth-child(even) {
-		background: #f5f5f5;
+	table tr:nth-child(odd) {
+		background: #d8e9f6;
 	}
 
-	table tr:nth-child(odd) {
+	table tr:nth-child(even) {
 		background: #ffffff;
 	}
 
@@ -998,29 +999,51 @@ body:not(.frontend) {
 		padding-left: 20px;
 		padding-right: 20px;
 		padding-top: 3px;
-		line-height: 32px;
-		.universLight();
-		font-size: 17px;
-		letter-spacing: 0.075em;
+		line-height: 24px;
+		.CalibreLight();
+		font-size: 18px;
+		letter-spacing: 0.01em;
 		vertical-align: middle;
-		color: #000000;
-		padding-top: 10px;
-    	padding-bottom: 5px;
+		color: #666666;
+		padding-top: 13px;
+    	padding-bottom: 8px;
 	}
 
 	table tr:first-child td {
-		.universCn();
+		.CalibreRegular();
 		text-transform: uppercase;
 		font-size: 17px;
 		line-height: 22px;
-		letter-spacing: 0.05em;
-		color: #666666;
+		letter-spacing: 0.01em;
+		color: #000000;
 		vertical-align: middle;
-		padding-left: 40px;
+		padding-left: 20px;
 		padding-right: 40px;
-		padding-top: 15px;
-    	padding-bottom: 10px;
+		padding-top: 16px;
+    	padding-bottom: 9px;
+    	background: #93c3e3;
+
+    	&:not(:last-child) {
+    		border-right: 1px solid #7296ae;
+    	}
 	}
+
+	table {
+		border: 0px;
+	}
+
+	table > thead > tr > th, 
+	table > tbody > tr > th, 
+	table > tfoot > tr > th, 
+	table > thead > tr > td, 
+	table > tbody > tr > td {
+		border: 0px;
+	}
+
+	table > tbody > tr > td:not(:last-child) {
+		border-right: 1px solid #c3c3c3;
+	}
+
 
 	@media (min-width: 1049px) {
 		.table-responsive {
@@ -1119,7 +1142,7 @@ body.frontend, body#tinymce {
 	}
 
 	img.image-inline {
-	  	display: block;
+	  	display: inline-block;
   		max-width: 100%;
   		height: auto;
   		padding-top: 45px;
@@ -1261,26 +1284,24 @@ body.frontend, body#tinymce {
     	h1 {
     		color: #000000;
     		margin-bottom: 12px;
-    		.universCn();
-    		font-size: 3.750em;
+    		.CalibreMedium();
+    		font-size: 2.750em;
     		font-weight: 400;
-    		text-transform: uppercase;
-    		letter-spacing: 0.05em;
+    		letter-spacing: 0.01em;
 
     		@media (max-width: 768px) {
-				font-size: 2.000em;
 			}
     	}
 
     	.subheading {
     		color: #000000;
-    		font-size: 1.188em;
-    		letter-spacing: 0.05em;
-    		line-height: 37px;
+    		font-size: 1.400em;
+    		letter-spacing: 0.02em;
+    		line-height: 31px;
     		display: block;
     		margin-top: 20px;
-    		margin-bottom: 15px;
-    		.universLight();
+    		margin-bottom: 55px;
+    		.CalibreLightItalic();
 
     		&:empty {
     			margin-top: -15px;
@@ -1338,99 +1359,95 @@ body.frontend, body#tinymce {
 
     /* DOCUMENT LAYOUT */
     h2 {
-    	.universLightCn();
+    	.CalibreMedium();
     	font-size: 2.000em;
     	line-height: 40px;
     	color: #000000;
-    	letter-spacing: 0.075em;
+    	letter-spacing: 0.001em;
     	font-weight: 400;
-    	margin-top: 40px;
-    	text-transform: uppercase;
+    	margin-top: 50px;
     	@media (max-width: 768px) {
 			font-size: 1.750em;
 		}
     }
 
     h3 {
-    	.universLightCn();
-    	font-size: 1.375em;
+    	.CalibreMedium();
+    	font-size: 1.800em;
     	color: #000000;
-    	letter-spacing: 0.075em;
-    	line-height: 37px;
+    	letter-spacing: 0.001em;
+    	margin-bottom: 0px;
+    	line-height: 33px;
     	font-weight: 400;
-    	margin-top: 45px;
-    	text-transform: uppercase;
+    	margin-top: 55px;
     	@media (max-width: 768px) {
 			font-size: 1.400em;
 		}
     }
 
     h4:not(.page-header) {
-    	.universLightCn();
+    	.CalibreMedium();
     	font-size: 1.375em;
     	color: #000000;
-    	letter-spacing: 0.075em;
-    	line-height: 35px;
+    	letter-spacing: 0.001em;
+    	line-height: 33px;
     	font-weight: 400;
-    	margin-top: 45px;
-    	text-transform: uppercase;
+    	margin-top: 55px;
     	@media (max-width: 768px) {
 			font-size: 1.150em;
 		}
     }
 
     h5 {
-    	.universLightCn();
+    	.CalibreMedium();
     	font-size: 1.250em;
     	color: #000000;
-    	letter-spacing: 0.075em;
+    	letter-spacing: 0.001em;
     	line-height: 33px;
     	font-weight: 400;
-    	margin-top: 45px;
-    	text-transform: uppercase;
+    	margin-top: 55px;
     	@media (max-width: 768px) {
 			font-size: 1.000em;
 		}
     }
 
     h6 {
-    	.universLightCn();
+    	.CalibreMedium();
     	font-size: 1.125em;
     	color: #000000;
-    	letter-spacing: 0.075em;
+    	letter-spacing: 0.001em;
     	font-weight: 400;
-    	margin-top: 45px;
+    	margin-top: 55px;
     	line-height: 31px;
-    	text-transform: uppercase;
     	@media (max-width: 768px) {
 			font-size: 0.875em;
 		}
     }
 
     p {
-    	.universLight();
-    	font-size: 1.188em;
-    	line-height: 37px;
-    	letter-spacing: 0.05em;
+    	.CalibreLight();
+    	font-size: 1.400em;
+    	line-height: 31px;
+    	letter-spacing: 0.01em;
     	color: #000000;
-    	margin: 20px 0;
-    	margin-bottom: 35px;
+    	margin: 0px 0;
+    	margin-bottom: 30px;
 
     	&.image-description {
-    		font-size: 0.875em;
+    		font-size: 1.150em;
     		color: #666666;
-    		margin-top: -15px;
+    		margin-top: -30px;
     	}
 
     	@media (max-width: 768px) {
-			font-size: 1.000em;
 		}
     }
 
     p strong {
-    	.universLight();
+    	.CalibreLight();
     	font-size: 1.000em;
-    	line-height: 37px;
+    	letter-spacing: 0.015em;
+    	line-height: 31px;
     	color: #000000;
     	font-weight: 800;
     	@media (max-width: 768px) {
@@ -1521,6 +1538,15 @@ body.frontend, body#tinymce {
 			clear: both;
 		}
 
+		.img-wrapper {
+			vertical-align: middle;
+			display: inline-block;
+
+			img {
+				padding-top: 0px;
+			}
+		}
+
 		@media (min-width: 1025px) {
 			.iframe-wrapper {
 				margin-left: -100px;
@@ -1528,9 +1554,9 @@ body.frontend, body#tinymce {
 			}
 
 			.img-wrapper {
-				min-width: 100%;
-				margin-left: -100px;
-				margin-right: -100px;
+				max-width: 100%;
+				margin-left: 0px;
+				margin-right: 0px;
 			}
 		}
 	}
@@ -1587,7 +1613,6 @@ body.frontend, body#tinymce {
 				letter-spacing: 0.05em;
 
 				@media (max-width: 768px) {
-					font-size: 35px;
 				}
 			}
 
@@ -1627,7 +1652,7 @@ body.frontend, body#tinymce {
 		    letter-spacing: 0.05em;
 			margin-bottom: 20px;
 			margin-top: 0px;
-			.universLight();
+			.CalibreLight();
 		}
 
 		.main-content {
@@ -1708,11 +1733,15 @@ body.frontend, body#tinymce {
 		}
 
 		.event-date {
-		    font-size: 17px;
+		    font-size: 2.750em;
 		    line-height: 35px;
-		    color: #666666;
-		    letter-spacing: 0.05em;
-		    .universRoman();
+		    color: #000000;
+		    letter-spacing: 0.01em;
+		    .CalibreRegular();
+
+		    @media (max-width: 768px) {
+		    	font-size: 2.000em;
+		    }
 		}
 
 		.event.summary {
@@ -1747,7 +1776,7 @@ body.frontend, body#tinymce {
 		h1 {
 			font-size: 40px;
 			color: #000000;
-			.universCn();
+			.CalibreRegular();
 			text-align: center;
 			margin-top: 25px;
 			font-weight: 400;
@@ -1755,7 +1784,6 @@ body.frontend, body#tinymce {
 			letter-spacing: 0.05em;
 
 			@media (max-width: 768px) {
-				font-size: 35px;
 			}
 		}
 
@@ -1959,7 +1987,6 @@ body.frontend, body#tinymce {
 				padding-bottom: 0px;
 
 				@media (max-width: 768px) {
-					font-size: 35px;
 				}
 			}
 
@@ -2400,7 +2427,7 @@ footer {
 			margin-top: 0px;
 
 			a:not(.text-button) {
-				.universCn();
+				.CalibreRegular();
 				font-size: 17px;
 				text-transform: uppercase;
 				text-decoration: none;
@@ -2501,7 +2528,7 @@ footer {
 		}
 
 		p strong {
-			.universLight();
+			.CalibreLight();
 			font-size: 24px;
 			color: #4b4b4b;
 		}
@@ -2872,7 +2899,7 @@ footer {
 	}
 
 	.portletTitle p {
-		.universCn();
+		.CalibreRegular();
 		font-size: 17px;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -4193,7 +4220,7 @@ body.frontend {
 			display: inline-block;
 			font-size: 1.400em;
 		    color: #000000;
-			.universLightCn();
+			.CalibreMedium();
 		    text-align: center;
 		    margin-top: 45px;
 		    font-weight: 400;
@@ -4428,7 +4455,7 @@ body.template-listing_view {
 
 .plone-navbar-nav li .submenu a {
 	color: #000000;
-	.universLight();
+	.CalibreLight();
 	letter-spacing: 0.1em;
 	padding: 4px;
 	padding-bottom: 6px;
@@ -4450,7 +4477,7 @@ body.template-listing_view {
 	color: #000000;
 	font-size: 17px;
 	text-transform: uppercase;
-	.universCn();
+	.CalibreRegular();
 	letter-spacing: 0.1em;
 
 	&:hover,
@@ -4599,7 +4626,7 @@ body.plone-toolbar-left-expanded {
 }
 
 .navbar-default a.navbar-brand {
-	.universCn();
+	.CalibreRegular();
 	color: @brand-primary;
 	font-size: 30px;
 	padding-top: 22px;
@@ -4625,7 +4652,7 @@ body.plone-toolbar-left-expanded {
 .navbar-default a.nav-btn {
 	border: 0px;
 	color: #808080;
-	padding: 21px 18px;
+	padding: 23px 18px;
 	padding-bottom: 18px;
 	width: 90px;
 	border-left: 1px solid #c3c3c3;
@@ -4667,7 +4694,7 @@ body.plone-toolbar-left-expanded {
 }
 
 .navbar-default a.lang-btn {
-	.universCn();
+	.CalibreRegular();
 	&:hover,
 	&:focus,
 	&:active {
@@ -6098,7 +6125,7 @@ body.frontend {
 
 			.breadcrumbs-wrapper {
 				a {
-					.universCn();
+					.CalibreRegular();
 					text-transform: uppercase;
 					letter-spacing: 0.1em;
 					font-size: 1.00em;
@@ -6120,7 +6147,7 @@ body.frontend {
 				}
 
 				li span:not(.fa) {
-					.universCn();
+					.CalibreRegular();
 					color: #808080;
 					text-transform: uppercase;
 					letter-spacing: 0.1em;
