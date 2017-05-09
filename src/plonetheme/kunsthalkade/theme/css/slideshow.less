@@ -10,6 +10,22 @@ body:not(.frontend).portaltype-object {
 			display: none;
 		}
 	}
+
+	.carousel-item-description {
+		    position: absolute;
+		    bottom: 0;
+		    width: 100%;
+		    background-color: #ffffff;
+		    height: 30px;
+
+		    p {
+		    	margin-top: 1px;
+    			margin-bottom: 0px;
+    			line-height: 25px;
+    			font-size: 1.150em;
+    			color: #666666;
+		    }
+	}
 	
 	nav#category {
 		display: none;
@@ -251,7 +267,7 @@ body:not(.frontend).portaltype-object {
 		}
 
 		.slick-prev {
-		    background: url("../img/arrow-left.svg") no-repeat 27px !important;
+		    background: url("../img/arrow-left.svg") no-repeat -7px !important;
 		    background-position: 50% 50%;
 		    background-size: 20px 20px;
 		    left: 0;
@@ -273,7 +289,7 @@ body:not(.frontend).portaltype-object {
 		}
 
 		.slick-next {
-		    background: url("../img/arrow-right.svg") no-repeat 30px !important;
+		    background: url("../img/arrow-right.svg") no-repeat 17px !important;
 		    background-position: 50% 50%;
 		    background-size: 20px 20px;
 		    right: 0;
@@ -568,6 +584,14 @@ body.frontend {
 			z-index: 2;
 		}
 	}
+
+	.carousel-image-wrapper {
+		margin-top: -30px;
+	}
+
+	#slickcarousel:before {
+		padding-bottom: 30px;
+	}
 }
 
 body.frontend #slickcarousel {
@@ -595,7 +619,7 @@ body.frontend #slickcarousel iframe {
 
 body.portaltype-formfolder {
 	.intro-header {
-		height: 150px !important;
+		height: 90px !important;
 		background: white !important;
 	}
 
@@ -724,7 +748,7 @@ body.portaltype-object {
 	.slick-next, .slick-prev {
 		border: none;
 		outline: none !important;
-		margin-top: -40px;
+		margin-top: -45px;
 
 		@media(max-width: 480px) {
 			margin-top: -20px;
@@ -762,7 +786,7 @@ body.portaltype-object {
 body.template-search,
 body.template-advancedsearch {
 	.title-container {
-		padding-top: 150px !important;
+		padding-top: 50px !important;
 
 		@media (max-width: 768px) {
 			padding-top: 50px;

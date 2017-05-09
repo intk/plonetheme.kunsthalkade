@@ -7,9 +7,9 @@
 
   <dl tal:attributes="class string:portlet portletMailChimp portletMailChimp-${view/name}">
     <dt class="portletTitle">
-      <p i18n:translate="" tal:condition="python: getattr(context, 'language', 'nl') == 'nl'">Nieuwsbrief</p>
+      <p i18n:translate="" tal:condition="python: getattr(context, 'language', 'nl') == 'nl'">Aanmelden Nieuwsbrief</p>
       <p i18n:translate="" tal:condition="python: getattr(context, 'language', 'nl') == 'en'">Newsletter</p>
-      <p i18n:translate="" tal:condition="python: not getattr(context, 'language', 'nl')">Nieuwsbrief</p>
+      <p i18n:translate="" tal:condition="python: not getattr(context, 'language', 'nl')">Aanmelden Nieuwsbrief</p>
     </dt>
 
     <dt class="portletHeader">
