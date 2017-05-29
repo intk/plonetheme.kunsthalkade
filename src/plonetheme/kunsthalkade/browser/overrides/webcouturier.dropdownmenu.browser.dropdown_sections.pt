@@ -6,91 +6,15 @@
      i18n:domain="plone">
 
   <p class="hiddenStructure" i18n:translate="heading_sections">Navigation</p>
-  <nav class="plone-navbar navbar" id="portal-globalnav-wrapper">
-    <div class="container-fluid"
+  <nav class="navbar" id="portal-globalnav-wrapper">
+    <div 
       tal:define="language python: getattr(context, 'language', 'nl') if getattr(context, 'language', 'nl') != '' else 'nl';
                   extra_languages python: True;">
 
-      <div class="plone-navbar-header navbar-header">
-        <a href="#portal-globalnav-collapse" class="nav-trigger" data-toggle="collapse" data-target="#portal-globalnav-collapse" aria-expanded="false">
-          <span>
-            <em aria-hidden="true"></em>
-          </span>
-        </a>
-        <a class="navbar-brand" href="/">
-          kunsthal KAdE
-        </a>
-        <img src="++resource++plonetheme.kunsthalkade/icon-search-blue.svg" style="display: none;"/>
+      <div class="navbar-header">
       </div>
 
-      <div class="plone-collapse collapse navbar-collapse" id="portal-globalnav-collapse">
-        <form class="navbar-form navbar-right menu-search-button">
-            <a href="#" type="input" class="btn btn-default nav-btn" tal:attributes="href python: '/'+language+'/search'"><i class="fa fa-search fa-lg"></i></a>
-        </form>
-        
-        <tal:testlang tal:condition="not:extra_languages">
-          <form class="navbar-form navbar-right language-selector" tal:condition="python: language == 'nl'">
-            <a href="#" type="input" class="btn btn-default nav-btn lang-btn" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'">EN</a>
-          </form>
-          <form class="navbar-form navbar-right language-selector" tal:condition="python: language == 'en'">
-            <a href="#" type="input" class="btn btn-default nav-btn lang-btn" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'">NL</a>
-          </form>
-        </tal:testlang>
-
-        <tal:testlang tal:condition="extra_languages">
-          <ul id="language-dropdown" class="nav plone-nav plone-navbar-nav navTreeRoot navbar-nav navbar-right">
-            <li class="dropdown">
-              <tal:testlang tal:condition="python: language == 'en'">
-                <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-                  EN
-                  <span class="fa fa-angle-down"></span>
-                </a>
-              </tal:testlang>
-              <tal:testlang tal:condition="python: language not in ['en', 'de']">
-                <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-                  NL
-                  <span class="fa fa-angle-down"></span>
-                </a>
-              </tal:testlang>
-              <tal:testlang tal:condition="python: language == 'de'">
-                <a href="#" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-                  DE
-                  <span class="fa fa-angle-down"></span>
-                </a>
-              </tal:testlang>
-
-              <ul class="submenu dropdown-menu">
-                <tal:en tal:condition="python: language == 'en'">
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">NL</a>
-                  </li>
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/de?set_language=de'" class="clearfix">DE</a>
-                  </li>
-                </tal:en>
-                
-                <tal:nl tal:condition="python: language not in ['de', 'en']">
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'" class="clearfix">EN</a>
-                  </li>
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/de?set_language=de'" class="clearfix">DE</a>
-                  </li>
-                </tal:nl>
-
-                <tal:de tal:condition="python: language == 'de'">
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">NL</a>
-                  </li>
-                  <li>
-                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'" class="clearfix">EN</a>
-                  </li>
-                </tal:de>
-              </ul>
-            </li>
-          </ul>
-        </tal:testlang>
-
+      <div id="portal-globalnav-collapse">
         <ul id="portal-globalnav" class="plone-nav plone-navbar-nav navTreeRoot nav navbar-nav navbar-right"
             tal:define="selected_tab python:view.selected_portal_tab">
             <tal:tabs tal:repeat="tab portal_tabs">
@@ -133,6 +57,66 @@
               </li>
             </tal:tabs>
         </ul>
+       
+        
+        <tal:testlang tal:condition="not:extra_languages">
+          <form class="navbar-form navbar-right language-selector" tal:condition="python: language == 'nl'">
+            <a href="#" type="input" class="btn btn-default nav-btn lang-btn" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'">EN</a>
+          </form>
+          <form class="navbar-form navbar-right language-selector" tal:condition="python: language == 'en'">
+            <a href="#" type="input" class="btn btn-default nav-btn lang-btn" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'">NL</a>
+          </form>
+        </tal:testlang>
+
+        <tal:testlang tal:condition="extra_languages">
+          <div class="language-selector-wrapper">
+              <div class="language-selector-options">
+                <tal:en tal:condition="python: language == 'en'">
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">Nederlands</a>
+                  </span>
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/de?set_language=de'" class="clearfix">Deutsch</a>
+                  </span>
+                </tal:en>
+                
+                <tal:nl tal:condition="python: language not in ['de', 'en']">
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'" class="clearfix">English</a>
+                  </span>
+                  <span>|</span>
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/de?set_language=de'" class="clearfix">Deutsch</a>
+                  </span>
+                </tal:nl>
+
+                <tal:de tal:condition="python: language == 'de'">
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">Nederlands</a>
+                  </span>
+                  <span>
+                      <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'" class="clearfix">English</a>
+                  </span>
+                </tal:de>
+              </div>
+          </div>
+        </tal:testlang>
+
+        <div class="search-wrapper">
+          <p tal:condition="python: language == 'en'">Search</p>
+          <p tal:condition="python: language == 'nl'">Zoeken</p>
+          <p tal:condition="python: language == 'de'">Suche</p>
+          <form class="navbar-form navbar-right menu-search-button" action="search" tal:attributes="action python: '/%s/search' % (getattr(context, 'language', 'nl'))">
+              <input type="text" class="search-button"
+                name="SearchableText"
+                title="Search site"
+                i18n:domain="plone"
+                i18n:attributes="title title_search_title;"
+                tal:attributes="value request/SearchableText|nothing;"
+                />
+          </form>
+        </div>
+
       </div>
     </div>
   </nav>

@@ -39,20 +39,7 @@
         css:if-content=".userrole-authenticated"
         />
 
-      <replace css:theme-children=".brand-logo" css:content="#portal-logo"/>
-
-      <!-- login link -->
-      <!--<after
-        css:theme-children="body"
-        css:content="#portal-anontools"
-        css:if-not-content=".ajax_load"
-        css:if-content=".userrole-anonymous"
-        />-->
-
-      <!-- replace theme navbar-nav with Plone plone-navbar-nav -->
-      <!--<replace
-        css:theme-children=".navbar-nav"
-        css:content-children=".plone-navbar-nav" />-->
+      <replace css:theme-children=".logo-wrapper" css:content="#portal-logo"/>
 
       <replace
         css:theme-children="#website-nav"
@@ -85,12 +72,6 @@
         css:theme-children="#nav-search-wrapper"
         css:content-children="#portal-searchbox"
         />
-
-      <!--<replace
-        css:theme-children="#social-content"
-        css:content="#viewlet-social-like"
-        method="raw"
-        />-->
 
       <!-- viewlet-above-content -->
       <replace
@@ -166,14 +147,16 @@
         css:if-content="body.template-online_experience"
         />
 
+      
+
 
       <!-- Central column -->
-      <replace css:theme="#content-container" method="raw">
+      <replace css:theme="#content-container">
 
           <xsl:variable name="central">
             <xsl:if test="//aside[@id='portal-column-one'] and //aside[@id='portal-column-two']">col-xs-12 col-sm-6</xsl:if>
-            <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-9</xsl:if>
-            <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-9</xsl:if>
+            <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-12</xsl:if>
+            <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12</xsl:if>
             <xsl:if test="not(//aside[@id='portal-column-one']) and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12</xsl:if>
           </xsl:variable>
 
@@ -184,26 +167,12 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            
-            <!--<section id="viewlet-below-content-body" class="row">
-                <div class="col-xs-12 col-sm-12 no-padding">
-                 <xsl:copy-of css:select="#viewlet-below-content" />
-                </div>
-                <div class="clearfix"></div>
-            </section>-->
-
           </div><!--/row-->
       </replace>
 
       <!-- Left column -->
       <rules css:if-content="#portal-column-one">
-        <replace css:theme="#column1-container">
-            <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
-              <aside id="portal-column-one">
-                 <xsl:copy-of css:select="#portal-column-one > *" />
-              </aside>
-            </div>
-        </replace>
+        <replace css:theme="#portal-column-one" css:content-children="#portal-column-one"/>
       </rules>
 
       <!-- Right column -->
@@ -217,9 +186,7 @@
         </replace>
       </rules>
 
-      <replace css:theme-children="footer .container" css:content-children="#portal-footer-wrapper" />
-      <!--<after css:theme-children=".main-content" css:content=".portlet-rrssb" method="raw"/>
-      <drop css:content="footer .portlet-rrssb"/>-->
+      <replace css:theme-children="footer > div" css:content-children="#portal-footer-wrapper" />
 
       <!-- Mailchimp portlet -->
       <replace css:content-children=".portletMailChimp">
@@ -228,30 +195,27 @@
           <xsl:copy-of select="dt[@class='portletHeader']"/>
 
           <dd class="portletItem odd">
+            <form id="newsletter-subscriber-form" class="form-inline" role="form" method="post"><xsl:attribute name="action"><xsl:value-of select="div/dl/dd/form/@action"/></xsl:attribute>
+              <div class="input-group">
+                <input type="text"
+                  class="text-widget required form-control input-lg textline-field" placeholder="Email" id="form-widgets-email" name="form.widgets.email"></input>
+                <span class="input-group-btn">
+                  <button class="submit-button" name="form.buttons.subscribe" id="form-buttons-subscribe" type="submit" role="submit">
+                    <span class="mailchimp-btn-text">Inschrijven</span>
+                    <span class="fa fa-chevron-right"></span>
+                  </button>
+                </span>
+              </div>
 
-          <form id="newsletter-subscriber-form" class="form-inline" role="form" method="post"><xsl:attribute name="action"><xsl:value-of select="div/dl/dd/form/@action"/></xsl:attribute>
-            <div class="input-group">
-              <input type="text"
-                class="text-widget required form-control input-lg textline-field" placeholder="Email" id="form-widgets-email" name="form.widgets.email"></input>
-              <span class="input-group-btn">
-                <button class="submit-button" name="form.buttons.subscribe" id="form-buttons-subscribe" type="submit" role="submit">
-                  <span class="mailchimp-btn-text">Inschrijven</span>
-                  <span class="fa fa-chevron-right"></span>
-                </button>
-              </span>
-            </div>
-
-            <xsl:copy-of css:select=".portletMailChimp input[type='hidden']"/>
-            <xsl:copy-of select="div/dl//p"/>
-            <xsl:for-each css:select=".portletMailChimp .fieldErrorBox">
-              <xsl:if test="position()=1">
-                <xsl:copy-of select="." />
-              </xsl:if>
-            </xsl:for-each>
-
-          </form>
+              <xsl:copy-of css:select=".portletMailChimp input[type='hidden']"/>
+              <xsl:copy-of select="div/dl//p"/>
+              <xsl:for-each css:select=".portletMailChimp .fieldErrorBox">
+                <xsl:if test="position()=1">
+                  <xsl:copy-of select="." />
+                </xsl:if>
+              </xsl:for-each>
+            </form>
           </dd>
-        
       </replace>
 
       <replace css:content="#parent-fieldname-text iframe">
