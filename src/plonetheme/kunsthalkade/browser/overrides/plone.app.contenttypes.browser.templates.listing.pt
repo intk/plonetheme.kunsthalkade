@@ -88,9 +88,7 @@
                             
                           </metal:block>
                             <p class="item-description" tal:content="item_description"></p>
-                            <div class="item-more">
-                              <a tal:attributes="href item_link" i18n:translate="read_more">Read More&hellip;</a>
-                            </div>
+                            
                           </div>
                 </article>
               </metal:block>

@@ -75,6 +75,7 @@
                   <span>
                       <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">Nederlands</a>
                   </span>
+                  <span>|</span>
                   <span>
                       <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/de?set_language=de'" class="clearfix">Deutsch</a>
                   </span>
@@ -94,6 +95,7 @@
                   <span>
                       <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/nl?set_language=nl'" class="clearfix">Nederlands</a>
                   </span>
+                  <span>|</span>
                   <span>
                       <a href="#" tal:attributes="href python: '/@@multilingual-selector/'+view.getTranslationGroup()+'/en?set_language=en'" class="clearfix">English</a>
                   </span>
