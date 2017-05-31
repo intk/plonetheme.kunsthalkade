@@ -1317,7 +1317,7 @@ var skel = (function() { "use strict"; var _ = {
     // Body.
 
       // Event: Hide panel on body click/tap.
-        $body.on('click touchend', function(event) {
+        jQuery("#website-wrapper").on('click touchend', function(event) {
           $this._hide(event);
         });
 
@@ -1691,9 +1691,9 @@ var skel = (function() { "use strict"; var _ = {
       // Header.
       $('#left-header')
         .panel({
-          delay: 500,
+          delay: 200,
           hideOnClick: true,
-          hideOnSwipe: true,
+          hideOnSwipe: false,
           resetScroll: true,
           resetForms: true,
           side: 'left',
