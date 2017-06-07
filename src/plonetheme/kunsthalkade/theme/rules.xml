@@ -90,6 +90,12 @@
         method="raw"
         />
 
+      <replace
+        css:theme-children="#top-right-small"
+        css:content-children=".topright-portlets"
+        method="raw"
+        />
+
       <drop css:content=".topright-portlets"/>
 
       <drop css:content="#viewlet-below-content-body"/>
