@@ -8,11 +8,179 @@ from plone.app.multilingual.interfaces import ITranslationManager
 
 from plone.app.contenttypes.browser.collection import CollectionView
 from plone.app.uuid.utils import uuidToCatalogBrain
+from plone.dexterity.utils import safe_unicode
 
 from datetime import date
 from DateTime import DateTime
 import time
+from plone.app.event.base import date_speller
 
+from Acquisition import aq_inner
+from zope.component import getUtility
+from zope.intid.interfaces import IIntIds
+from zope.security import checkPermission
+from zc.relation.interfaces import ICatalog
+
+def generate_person_title(firstname, lastname, nationality, year):
+    names = ""
+    if firstname and lastname:
+        names = firstname + " " + lastname
+    elif not firstname and lastname:
+        names = lastname
+    elif not lastname and firstname:
+        names = firstname
+
+    extra = []
+    if nationality:
+        extra.append(nationality)
+    if year:
+        extra.append(year)
+
+    extra_text = ', '.join(extra)
+
+    if names and extra_text:
+        final_text = "%s (%s)" %(names, extra_text)
+        return final_text
+    elif names and not extra_text:
+        final_text = "%s" %(names)
+        return final_text
+    else:
+        return ''
+
+
+def translateArtists(language="en"):
+    import plone.api
+    import transaction
+    from plone.app.multilingual.interfaces import ITranslationManager
+    
+    container_path = "/nl/online-archief/kunstenaars"
+
+    with plone.api.env.adopt_user(username="admin"):
+        container = plone.api.content.get(path=container_path)
+
+        total = len(list(container))
+        curr = 0
+
+        for _id in list(container):
+            curr += 1
+            print "Translating Person %s / %s to '%s'" %(curr, total, language)
+            person = container[_id]
+
+            if not ITranslationManager(person).has_translation(language):
+                ITranslationManager(person).add_translation(language)
+                person_translated = ITranslationManager(person).get_translation(language)
+                person_translated.title = person.title
+                person_translated.firstname = person.firstname
+                person_translated.lastname = person.lastname
+                person_translated.nationality = person.nationality
+                person_translated.year = person.year
+                person_translated.reindexObject()
+                transaction.get().commit()
+                print "Translation added for Person '%s'" %(person.title)
+            else:
+                print "Person '%s' already has a translation to '%s'" %(person.title, language)
+
+    return True
+
+
+
+def importArtists():
+    import csv
+    import plone.api
+    import transaction
+
+    file_path = "/var/www/kunsthalkade-dev/import/artists.csv"
+    container_path = "/nl/online-archief/kunstenaars"
+    
+    """ Read CSV """
+
+    csv_file = open(file_path, 'rb')
+    csv_reader = csv.reader(csv_file)
+    artists_list = list(csv_reader)
+
+    artists = artists_list[1:]
+
+    """ Create content types """
+    with plone.api.env.adopt_user(username="admin"):
+        """ Get container """
+        container = plone.api.content.get(path=container_path)
+
+        for elem in artists:
+            try:
+                artist = elem[0].split(';')
+                firstname = artist[0]
+                lastname = artist[1]
+                nationality = artist[2]
+                year = artist[3]
+                title = generate_person_title(firstname, lastname, nationality, year)
+
+                """
+                print "-- Artist --"
+                print "Firstname: %s" %(firstname)
+                print "Lastname: %s" %(lastname)
+                print "Nationality: %s" %(nationality)
+                print "Year: %s" %(year)
+                print "Title: %s" %(title)
+                print "---\n" 
+                """
+
+                try:
+                    plone.api.content.create(container=container, type="Person", title=title, firstname=firstname, lastname=lastname, nationality=nationality, year=year)
+                    print "Artist '%s' created" %(title)
+                    transaction.get().commit()
+                except:
+                    print "Already exists"
+            except:
+                print "Error ocurred for artist %s" %(str(elem))
+
+        return True
+
+
+    return True
+
+
+class SimpleListingView(CollectionView):
+    """ Class for Simple Listing view """
+
+    def getImageScale(self, item):
+        if item.portal_type == "Image":
+            return item.getURL()+"/@@images/image/large"
+        if getattr(item, 'leadMedia', None) != None:
+            uuid = item.leadMedia
+            media_object = uuidToCatalogBrain(uuid)
+            if media_object:
+                return media_object.getURL()+"/@@images/image/large"
+            else:
+                return None
+        else:
+            return None
+
+    def get_relations(self, brain):
+        catalog = getUtility(ICatalog)
+        intids = getUtility(IIntIds)
+        result = []
+        attribute_name = "relatedItems"
+        item = brain.getObject()
+
+        for rel in catalog.findRelations(
+                dict(to_id=intids.getId(aq_inner(item)),
+                from_attribute=attribute_name)
+            ):
+
+            obj = intids.queryObject(rel.from_id)
+            if obj is not None and checkPermission('zope2.View', obj):
+                result.append(obj)
+
+        structure = []
+
+        for event in result:
+            structure.append("<a href='%s'>%s</a>" %(event.absolute_url(), event.title))
+
+        final_result = "<span>, </span>".join(structure)
+        return final_result
+
+    def date_speller(self, date):
+        return date_speller(self.context, date)
 
 class ContextToolsView(BrowserView):
 

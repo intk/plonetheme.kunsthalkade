@@ -32,6 +32,38 @@
         permission="zope2.View"
         />
 
+  <browser:page
+        name="simple_listing_view"
+        for="*"
+        template="templates/simple_listing_view.pt"
+        class=".views.SimpleListingView"
+        permission="zope2.View"
+        />
+
+  <browser:menuItem
+        for="*"
+        menu="plone_displayviews"
+        title="Simple Listing View"
+        action="@@simple_listing_view"
+        description="Simple Listing View"
+        />
+
+  <browser:page
+        name="exhibition_view"
+        for="*"
+        template="templates/exhibition_view.pt"
+        class=".views.SimpleListingView"
+        permission="zope2.View"
+        />
+
+  <browser:menuItem
+        for="*"
+        menu="plone_displayviews"
+        title="Exhibition View"
+        action="@@exhibition_view"
+        description="Exhibition View"
+        />
+
   <browser:menuItem
         for="*"
         menu="plone_displayviews"
