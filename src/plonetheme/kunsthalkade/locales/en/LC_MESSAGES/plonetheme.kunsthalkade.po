@@ -79,3 +79,6 @@ msgstr "path"
 msgid 'object_on_display'
 msgstr "Now on display"
 
+#: ../object.py
+msgid 'archive'
+msgstr "Archive"

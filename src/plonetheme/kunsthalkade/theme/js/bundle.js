@@ -1748,12 +1748,10 @@ if (jQuery('.portlet-collection-front-page-collection').length) {
   imagesLoaded('.portlet-collection-front-page-collection #row-items', function() {
     var elem = document.querySelector('.portlet-collection-front-page-collection #row-items');
     var msnry = new Masonry(elem, {
-       // options
        itemSelector: '.portlet-item',
-       gutter: 20,
+       gutter: 16,
        fitWidth: true
     });
-
     $(".portlet-collection-front-page-collection").addClass('init');
   });
 }
@@ -1776,8 +1774,6 @@ if (jQuery('.portlet-collection-front-page-collection').length) {
     event.preventDefault();
     jQuery(".sharing-buttons-wrapper").toggleClass('open');
   });
-
-  
 
   jQuery('#images-only-filter').change(function(){
     if (jQuery(this).attr('checked')){
@@ -1805,159 +1801,8 @@ if (jQuery('.portlet-collection-front-page-collection').length) {
     jQuery("body").addClass("mobile");
   } else {
     jQuery("body").addClass("no-touch");
-
-    /*var hover_limit = 1050;
-    if (jQuery("body").hasClass('plone-toolbar-left-expanded')) {
-      hover_limit = 1150;
-    }
-
-    jQuery('ul.nav li.dropdown').hover(function() {
-        if (window.innerWidth >= hover_limit) {
-          jQuery(this).closest('.dropdown-menu').stop(true, true).show();
-          jQuery(this).addClass('open');
-        }
-    }, function() {
-        if (window.innerWidth >= hover_limit) {
-          jQuery(this).closest('.dropdown-menu').stop(true, true).hide();
-          jQuery(this).removeClass('open');
-        }
-    });*/
   }
-  
-  /*var isLateralNavAnimating = false;
-  
-  //open/close lateral navigation
-  jQuery('.cd-nav-trigger, .cd-nav-trigger-menu').on('click', function(event) {
-    event.preventDefault();
-
-    if (slickCarousel != undefined) {
-      if (slickCarousel.playing) {
-        slickCarousel.pauseCurrentSlide();
-      }
-    }
-    if( !isLateralNavAnimating ) {
-      if(jQuery(this).parents('.csstransitions').length > 0 ) isLateralNavAnimating = true; 
-      
-      jQuery('body').toggleClass('navigation-is-open');
-      jQuery('.cd-navigation-wrapper').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
-        //animation is over
-        isLateralNavAnimating = false;
-      });
-    }
-  });*/
 });
-
-jQuery(document).ready(function($){
-  /*var mainHeader = jQuery('.cd-auto-hide-header'),
-    secondaryNavigation = jQuery('.cd-secondary-nav'),
-    //this applies only if secondary nav is below intro section
-    belowNavHeroContent = jQuery('.sub-nav-hero'),
-    headerHeight = mainHeader.height();
-  
-  //set scrolling variables
-  var scrolling = false,
-    previousTop = 0,
-    currentTop = 0,
-    scrollDelta = 10,
-    scrollOffset = 150;
-
-  mainHeader.on('click', '.nav-trigger', function(event){
-    // open primary navigation on mobile
-    event.preventDefault();
-    mainHeader.toggleClass('nav-open');
-  });*/
-
-  /*jQuery(window).on('scroll', function(){
-    if( !scrolling ) {
-      scrolling = true;
-      (!window.requestAnimationFrame)
-        ? setTimeout(autoHideHeader, 250)
-        : requestAnimationFrame(autoHideHeader);
-    }
-  });
-
-  jQuery(window).on('resize', function(){
-    headerHeight = mainHeader.height();
-  });
-
-  function autoHideHeader() {
-    var currentTop = jQuery(window).scrollTop();
-
-    ( belowNavHeroContent.length > 0 ) 
-      ? checkStickyNavigation(currentTop) // secondary navigation below intro
-      : checkSimpleNavigation(currentTop);
-
-      previousTop = currentTop;
-    scrolling = false;
-  }
-
-  function checkSimpleNavigation(currentTop) {
-    //there's no secondary nav or secondary nav is below primary nav
-      if (previousTop - currentTop > scrollDelta) {
-        //if scrolling up...
-        mainHeader.removeClass('is-hidden');
-      } else if( currentTop - previousTop > scrollDelta && currentTop > scrollOffset) {
-        //if scrolling down...
-        mainHeader.addClass('is-hidden');
-      }
-  }
-
-  function checkStickyNavigation(currentTop) {
-    //secondary nav below intro section - sticky secondary nav
-    var secondaryNavOffsetTop = belowNavHeroContent.offset().top - secondaryNavigation.height() - mainHeader.height();
-    
-    if (previousTop >= currentTop ) {
-        //if scrolling up... 
-        if( currentTop < secondaryNavOffsetTop ) {
-          //secondary nav is not fixed
-          mainHeader.removeClass('is-hidden');
-          secondaryNavigation.removeClass('fixed slide-up');
-          belowNavHeroContent.removeClass('secondary-nav-fixed');
-        } else if( previousTop - currentTop > scrollDelta ) {
-          //secondary nav is fixed
-          mainHeader.removeClass('is-hidden');
-          secondaryNavigation.removeClass('slide-up').addClass('fixed'); 
-          belowNavHeroContent.addClass('secondary-nav-fixed');
-        }
-        
-      } else {
-        //if scrolling down...  
-        if( currentTop > secondaryNavOffsetTop + scrollOffset ) {
-          //hide primary nav
-          mainHeader.addClass('is-hidden');
-          secondaryNavigation.addClass('fixed slide-up');
-          belowNavHeroContent.addClass('secondary-nav-fixed');
-        } else if( currentTop > secondaryNavOffsetTop ) {
-          //once the secondary nav is fixed, do not hide primary nav if you haven't scrolled more than scrollOffset 
-          mainHeader.removeClass('is-hidden');
-          secondaryNavigation.addClass('fixed').removeClass('slide-up');
-          belowNavHeroContent.addClass('secondary-nav-fixed');
-        }
-      }
-  }*/
-});
-
-/* Responsive storytelling enhancement */
-var isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-    any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-    }
-};
 
 _logger = {}
 _logger.debug = false;

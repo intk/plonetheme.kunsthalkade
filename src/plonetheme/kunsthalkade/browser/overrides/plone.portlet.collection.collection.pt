@@ -21,7 +21,7 @@
     <tal:events tal:repeat="obj view/results"
                 tal:define="portlet_class python: 'col-lg-4 col-md-4 col-sm-6 col-xs-12 portlet-item' if context.portal_type in ['Portlet Page', 'Event', 'Document'] else 'col-lg-6 col-md-6 col-sm-6 col-xs-12 portlet-item %s'">
 
-    <div tal:attributes="class python: '%s %s %s' %(portlet_class, obj.portal_type, 'Archive' if 'De Loop' in obj.Title() or 'Self-Fiction' in obj.Title() else '')" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 portlet-item"
+    <div tal:attributes="class python: '%s %s %s' %(portlet_class, obj.portal_type, 'Archive' if 'online-archief' in obj.getURL() else '')" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 portlet-item"
         tal:define="plone_view context/@@plone;
                     oddrow repeat/obj/odd;
                     useView python:obj.portal_type in viewActions;
@@ -34,7 +34,8 @@
                     item_type_class python:'contenttype-' + plone_view.normalizeString(item_type);
                     item_is_event python: item_type in ['Event', 'Exhibition'];
                     item_index repeat/obj/index;
-                    number repeat/obj/number;"
+                    number repeat/obj/number;
+                    is_archive python: 'online-archief' in obj.getURL();"
         >
         
         
@@ -96,9 +97,12 @@
               tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj)">
                 <p class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
                   <tal:definedates tal:define="event_data python: view.date_speller(obj.start)">
-                    <span tal:content="event_data/day" class="date-day"></span><br/>
-                    <span tal:content="event_data/month_abbr"></span> <span tal:content="event_data/year"></span><br/>
-                    <tal:differentdays tal:condition="python: event_data.get('hour2', '') not in ['00', '']"><span tal:content="event_data/hour2"></span>:<span tal:content="event_data/minute2"></span></tal:differentdays>
+                    <tal:archive tal:condition="not:is_archive">
+                      <span tal:content="event_data/day" class="date-day"></span><br/>
+                      <span tal:content="event_data/month_abbr"></span> <span tal:content="event_data/year"></span><br/>
+                      <tal:differentdays tal:condition="python: event_data.get('hour2', '') not in ['00', '']"><span tal:content="event_data/hour2"></span>:<span tal:content="event_data/minute2"></span></tal:differentdays>
+                    </tal:archive>
+                    
                   </tal:definedates>
                 </p>
             </tal:event_date>
@@ -132,8 +136,13 @@
 
             <tal:event condition="item_is_event"
              tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj)">
-              <p class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
-              <tal:date tal:replace="structure python:view.formatted_date(obj)"/>
+              <p class="event-date" tal:attributes="class python: 'event-date past' if is_past and not is_archive else 'event-date'">
+              <tal:date tal:condition="not:is_archive" tal:replace="structure python:view.formatted_date(obj)"/>
+              <tal:archive tal:condition="is_archive"
+                tal:define="event_data python: view.date_speller(obj.start)">
+                <span i18n:translate="archive">Archief</span>: <span tal:content="event_data/year"></span>
+              </tal:archive>
+
               <span tal:condition="obj/location" i18n:translate="label_event_byline_location">&mdash;
                 <span tal:content="string:${item/location}" class="location" i18n:name="location">Oslo</span>,
               </span>
