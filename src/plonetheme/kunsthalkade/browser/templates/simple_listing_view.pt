@@ -64,7 +64,7 @@
                        <a tal:attributes="href item_link">
                         <img class="image-tile"
                                tal:condition="item_has_image"
-                               tal:attributes="src  string:$item_url/@@images/image/tile">
+                               tal:attributes="src string:$item_url/@@images/image/tile">
                         </a>
                         <a tal:attributes="href item_link;
                                            class string:$item_type_class $item_wf_state_class url;

@@ -5237,6 +5237,14 @@ body:not(.plone-toolbar-left-expanded) {
 	}
 }
 
+body:not(.plone-toolbar-left-expanded):not(.site-nl) {
+	@media (max-width: 5000px) {
+		.navbar-nav {
+	        width: auto !important;
+	    }
+	}
+}
+
 body.plone-toolbar-left-expanded {
 	@media (max-width: 1185px) {
 	    .navbar-header {
@@ -6782,8 +6790,11 @@ footer div > div.row {
 	width: 180px;
 }
 
-body.site-en .language-selector-wrapper {
-	width: auto;
+body.site-en,
+body.site-de {
+	.language-selector-wrapper {
+		width: auto;
+	}
 }
 
 body:not(.frontend) .search-wrapper .search-button {

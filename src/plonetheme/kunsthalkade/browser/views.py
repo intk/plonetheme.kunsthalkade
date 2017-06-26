@@ -20,15 +20,12 @@ from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
 from zope.security import checkPermission
 from zc.relation.interfaces import ICatalog
+from plone.memoize.view import memoize
 
-def generate_person_title(firstname, lastname, nationality, year):
+def generate_person_title(firstname, middlename, lastname, nationality, year):
     names = ""
-    if firstname and lastname:
-        names = firstname + " " + lastname
-    elif not firstname and lastname:
-        names = lastname
-    elif not lastname and firstname:
-        names = firstname
+    names_list = [firstname, middlename, lastname]
+    names = " ".join([name for name in names_list if name not in ['', None]])
 
     extra = []
     if nationality:
@@ -82,6 +79,181 @@ def translateArtists(language="en"):
 
     return True
 
+def createArtistsRelations():
+    import csv
+    import plone.api
+    import transaction
+    from zope import component
+    from zope.intid.interfaces import IIntIds
+    from z3c.relationfield import RelationValue
+    from zope.event import notify
+    from zope.lifecycleevent import ObjectModifiedEvent
+
+    intids = component.getUtility(IIntIds)
+
+    file_path = "/var/www/kunsthalkade-dev/import/artists-v4.tsv"
+    container_path = "/nl/online-archief/kunstenaars"
+    #container_path = "/nl/intk/test-artists-import"
+
+    """ Read CSV """
+    csv_file = open(file_path, 'r')
+    artists_list = [row for row in csv.reader(csv_file.read().splitlines())]
+
+    artists = artists_list[1:]
+
+    """ Create content types """
+    with plone.api.env.adopt_user(username="admin"):
+        """ Get container """
+        container = plone.api.content.get(path=container_path)
+        portal = plone.api.portal.get()
+        not_found_exhibitions = []
+        artists_without_relations = []
+        artists_not_found = []
+
+        for elem in artists:
+            try:
+                artist = elem[0].split('\t')
+                firstname = artist[0]
+                lastname = artist[2]
+                exhibition = artist[5].strip()
+
+                if exhibition == "SpaceDrawings":
+                    """print "-- Relation --"
+                    print "Artist: %s %s" %(firstname, lastname)
+                    print "Exhibition: %s" %(exhibition)
+                    print "---\n" """
+
+                    """ Find exhibition """
+                    exhibitions = plone.api.content.find(context=portal, portal_type='Event', Title=exhibition)
+                    if exhibitions:
+                        exhibition_obj = None
+                        if len(exhibitions) > 1:
+                            exhibition_obj = [ex for ex in exhibitions if 'online-archief' or 'nu-en-verwacht' in ex.getURL()][0].getObject()
+                        else:
+                            exhibition_obj = exhibitions[0].getObject()
+
+                        
+                        """ Find artist """
+                        artists_results = plone.api.content.find(context=portal, Language='nl', portal_type="Person", Title="*%s*" %(lastname.strip()))
+                        artist_obj = None
+                        for res in artists_results:
+                            if res.getObject().firstname == firstname:
+                                artist_obj = res.getObject()
+                                break
+
+                        if artist_obj:
+                            person_id = intids.getId(artist_obj)
+                            relation_value = RelationValue(person_id)
+                            exhibition_obj.relatedItems.append(relation_value)
+                            notify(ObjectModifiedEvent(exhibition_obj))
+                            transaction.get().commit()
+                            print "Relation from '%s' to '%s %s' created" %(exhibition, firstname, lastname)
+                        else:
+                            print "Artists '%s %s' not found" %(firstname, lastname)
+                            if "%s %s"%(firstname, lastname) not in artists_without_relations:
+                                artists_not_found.append("%s %s"%(firstname, lastname))
+
+                        """ Create the relation """
+
+                    else:
+                        #print "Exhibition '%s' was not found" %(exhibition)
+                        if exhibition not in not_found_exhibitions:
+                            not_found_exhibitions.append(exhibition)
+
+                else:
+                    #print "Artist '%s %s' not related with an Exhibition" %(firstname, lastname)
+                    if "%s %s"%(firstname, lastname) not in artists_without_relations:
+                        artists_without_relations.append("%s %s"%(firstname, lastname))
+                
+            except:
+                print "Error ocurred for artist %s" %(str(elem))
+                pass
+
+        print "Total of artists without relations: %s" %(len(artists_without_relations))
+        print "Total of not found artists: %s" %(len(artists_not_found))
+        print "Total of not found exhibitions: %s" %(len(not_found_exhibitions))
+        print "\n"
+        print "Not found exhibitions:"
+        print not_found_exhibitions
+        print "\n"
+        print "Artists without relations:"
+        print artists_without_relations
+        print "\n"
+        print "Artists not found:"
+        print artists_not_found
+
+        return True
+    return True
+
+def importExhibitions():
+    import csv
+    import plone.api
+    import transaction
+    import pytz
+    from datetime import datetime
+    from plone.app.event.dx.behaviors import IEventBasic
+
+    file_path = "/var/www/kunsthalkade-dev/import/exhibitions-v1.tsv"
+    #container_path = "/nl/online-archief/tentoonstelingen"
+    container_path = "/nl/intk/test-import-exhibitions"
+
+    """ Read CSV """
+
+    csv_file = open(file_path, 'r')
+    exhibitions_list = [row for row in csv.reader(csv_file.read().splitlines())]
+
+    exhibitions = exhibitions_list[1:]
+
+    """ Create content types """
+    with plone.api.env.adopt_user(username="admin"):
+        """ Get container """
+        container = plone.api.content.get(path=container_path)
+
+        for elem in exhibitions:
+            
+            try:
+                exhibition = elem[0].split('\t')
+                title = exhibition[0]
+                startdate = exhibition[1]
+                enddate = exhibition[2]
+                year = exhibition[3]
+                
+                """print "-- Exhibition --"
+                print "Title: %s" %(title)
+                print "Start date: %s" %(startdate)
+                print "End date: %s" %(enddate)
+                print "Year: %s" %(year)
+                print "---\n" """
+                
+                TIMEZONE = "Europe/Amsterdam"
+
+                if startdate and enddate:
+                    ## Format mm/dd/yyyy
+                    tzinfo = pytz.timezone(TIMEZONE)
+                    startdate_datetime = datetime.strptime(startdate, "%m/%d/%Y")
+                    patched_startdate = tzinfo.localize(startdate_datetime)
+                   
+                    enddate_datetime = datetime.strptime(enddate, "%m/%d/%Y")
+                    patched_enddate = tzinfo.localize(enddate_datetime)
+
+                    try:
+                        created_obj = plone.api.content.create(container=container, type="Event", start=patched_startdate, end=patched_enddate, whole_day=True, title=title)
+                        plone.api.content.transition(obj=created_obj, to_state="published")
+                        created_obj.reindexObject()
+                        print "Exhibition '%s' created" %(title)
+                        transaction.get().commit()
+                    except:
+                        raise
+                else:
+                    print "[Warning] Exhibition '%s' not created - start and end date not available" %(title)
+                
+            except:
+                print "Error ocurred for exhibition %s" %(str(elem))
+                pass
+
+        return True
+    return True
+
 
 
 def importArtists():
@@ -89,14 +261,15 @@ def importArtists():
     import plone.api
     import transaction
 
-    file_path = "/var/www/kunsthalkade-dev/import/artists.csv"
+    file_path = "/var/www/kunsthalkade-dev/import/artists-v4.tsv"
     container_path = "/nl/online-archief/kunstenaars"
-    
+    #container_path = "/nl/intk/test-artists-import"
+
     """ Read CSV """
 
-    csv_file = open(file_path, 'rb')
-    csv_reader = csv.reader(csv_file)
-    artists_list = list(csv_reader)
+    csv_file = open(file_path, 'r')
+    artists_list = [row for row in csv.reader(csv_file.read().splitlines())]
+    #artists_list = list(csv_reader)
 
     artists = artists_list[1:]
 
@@ -106,32 +279,38 @@ def importArtists():
         container = plone.api.content.get(path=container_path)
 
         for elem in artists:
+            
             try:
-                artist = elem[0].split(';')
+                artist = elem[0].split('\t')
                 firstname = artist[0]
-                lastname = artist[1]
-                nationality = artist[2]
-                year = artist[3]
-                title = generate_person_title(firstname, lastname, nationality, year)
+                middlename = artist[1]
+                lastname = artist[2]
+                nationality = artist[3]
+                year = artist[4]
 
-                """
-                print "-- Artist --"
+                title = generate_person_title(firstname, middlename, lastname, nationality, year)
+                
+                """print "-- Artist --"
                 print "Firstname: %s" %(firstname)
+                print "Middlename: %s" %(middlename)
                 print "Lastname: %s" %(lastname)
                 print "Nationality: %s" %(nationality)
                 print "Year: %s" %(year)
                 print "Title: %s" %(title)
-                print "---\n" 
-                """
+                print "---\n" """
 
                 try:
-                    plone.api.content.create(container=container, type="Person", title=title, firstname=firstname, lastname=lastname, nationality=nationality, year=year)
+                    created_obj = plone.api.content.create(container=container, type="Person", title=title, firstname=firstname, middlename=middlename, lastname=lastname, nationality=nationality, year=year)
+                    plone.api.content.transition(obj=created_obj, to_state="published")
+
                     print "Artist '%s' created" %(title)
                     transaction.get().commit()
                 except:
-                    print "Already exists"
+                    pass
+                
             except:
                 print "Error ocurred for artist %s" %(str(elem))
+                pass
 
         return True
 
@@ -155,6 +334,7 @@ class SimpleListingView(CollectionView):
         else:
             return None
 
+    @memoize
     def get_relations(self, brain):
         catalog = getUtility(ICatalog)
         intids = getUtility(IIntIds)
@@ -162,17 +342,18 @@ class SimpleListingView(CollectionView):
         attribute_name = "relatedItems"
         item = brain.getObject()
 
+        init_id = intids.getId(item)
+
         for rel in catalog.findRelations(
-                dict(to_id=intids.getId(aq_inner(item)),
+                dict(to_id=init_id,
                 from_attribute=attribute_name)
             ):
 
             obj = intids.queryObject(rel.from_id)
-            if obj is not None and checkPermission('zope2.View', obj):
+            if obj is not None:
                 result.append(obj)
 
         structure = []
-
         for event in result:
             structure.append("<a href='%s'>%s</a>" %(event.absolute_url(), event.title))
 
