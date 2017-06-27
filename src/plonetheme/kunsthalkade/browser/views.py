@@ -117,7 +117,7 @@ def createArtistsRelations():
                 lastname = artist[2]
                 exhibition = artist[5].strip()
 
-                if exhibition == "SpaceDrawings":
+                if exhibition:
                     """print "-- Relation --"
                     print "Artist: %s %s" %(firstname, lastname)
                     print "Exhibition: %s" %(exhibition)
@@ -131,7 +131,6 @@ def createArtistsRelations():
                             exhibition_obj = [ex for ex in exhibitions if 'online-archief' or 'nu-en-verwacht' in ex.getURL()][0].getObject()
                         else:
                             exhibition_obj = exhibitions[0].getObject()
-
                         
                         """ Find artist """
                         artists_results = plone.api.content.find(context=portal, Language='nl', portal_type="Person", Title="*%s*" %(lastname.strip()))
@@ -144,16 +143,22 @@ def createArtistsRelations():
                         if artist_obj:
                             person_id = intids.getId(artist_obj)
                             relation_value = RelationValue(person_id)
-                            exhibition_obj.relatedItems.append(relation_value)
-                            notify(ObjectModifiedEvent(exhibition_obj))
-                            transaction.get().commit()
-                            print "Relation from '%s' to '%s %s' created" %(exhibition, firstname, lastname)
+                            _ids = [rel.to_id for rel in getattr(exhibition_obj, 'relatedItems', [])]
+                            if person_id not in _ids:
+                                if not getattr(exhibition_obj, 'relatedItems', None):
+                                    exhibition_obj.relatedItems = []
+                                exhibition_obj.relatedItems.append(relation_value)
+                                exhibition_obj.reindexObject()
+                                notify(ObjectModifiedEvent(exhibition_obj))
+                                exhibition_obj.reindexObject()
+                                transaction.get().commit()
+                                print "Creating - Relation from '%s' to '%s %s' created" %(exhibition, firstname, lastname)
+                            else:
+                                print "Skipping - Relation from '%s' to '%s %s' already created" %(exhibition, firstname, lastname)
                         else:
                             print "Artists '%s %s' not found" %(firstname, lastname)
                             if "%s %s"%(firstname, lastname) not in artists_without_relations:
                                 artists_not_found.append("%s %s"%(firstname, lastname))
-
-                        """ Create the relation """
 
                     else:
                         #print "Exhibition '%s' was not found" %(exhibition)
@@ -193,12 +198,10 @@ def importExhibitions():
     from datetime import datetime
     from plone.app.event.dx.behaviors import IEventBasic
 
-    file_path = "/var/www/kunsthalkade-dev/import/exhibitions-v1.tsv"
-    #container_path = "/nl/online-archief/tentoonstelingen"
-    container_path = "/nl/intk/test-import-exhibitions"
+    file_path = "/var/www/kunsthalkade-dev/import/exhibitions-v2.tsv"
+    container_path = "/nl/online-archief/tentoonstellingen"
 
     """ Read CSV """
-
     csv_file = open(file_path, 'r')
     exhibitions_list = [row for row in csv.reader(csv_file.read().splitlines())]
 
@@ -206,11 +209,11 @@ def importExhibitions():
 
     """ Create content types """
     with plone.api.env.adopt_user(username="admin"):
+        portal = plone.api.portal.get()
         """ Get container """
         container = plone.api.content.get(path=container_path)
 
         for elem in exhibitions:
-            
             try:
                 exhibition = elem[0].split('\t')
                 title = exhibition[0]
@@ -218,34 +221,40 @@ def importExhibitions():
                 enddate = exhibition[2]
                 year = exhibition[3]
                 
-                """print "-- Exhibition --"
-                print "Title: %s" %(title)
-                print "Start date: %s" %(startdate)
-                print "End date: %s" %(enddate)
-                print "Year: %s" %(year)
-                print "---\n" """
-                
-                TIMEZONE = "Europe/Amsterdam"
-
-                if startdate and enddate:
-                    ## Format mm/dd/yyyy
-                    tzinfo = pytz.timezone(TIMEZONE)
-                    startdate_datetime = datetime.strptime(startdate, "%m/%d/%Y")
-                    patched_startdate = tzinfo.localize(startdate_datetime)
-                   
-                    enddate_datetime = datetime.strptime(enddate, "%m/%d/%Y")
-                    patched_enddate = tzinfo.localize(enddate_datetime)
-
-                    try:
-                        created_obj = plone.api.content.create(container=container, type="Event", start=patched_startdate, end=patched_enddate, whole_day=True, title=title)
-                        plone.api.content.transition(obj=created_obj, to_state="published")
-                        created_obj.reindexObject()
-                        print "Exhibition '%s' created" %(title)
-                        transaction.get().commit()
-                    except:
-                        raise
+                exhibitions = plone.api.content.find(context=portal, portal_type='Event', Title=title, Language="nl")
+                if exhibitions:
+                    print "Found for exhibition '%s'" %(title)
                 else:
-                    print "[Warning] Exhibition '%s' not created - start and end date not available" %(title)
+                    print "Not found for exhibition '%s'" %(title)
+                
+                    """print "-- Exhibition --"
+                    print "Title: %s" %(title)
+                    print "Start date: %s" %(startdate)
+                    print "End date: %s" %(enddate)
+                    print "Year: %s" %(year)
+                    print "---\n" """
+                    
+                    TIMEZONE = "Europe/Amsterdam"
+
+                    if startdate and enddate:
+                        ## Format mm/dd/yyyy
+                        tzinfo = pytz.timezone(TIMEZONE)
+                        startdate_datetime = datetime.strptime(startdate, "%m/%d/%Y")
+                        patched_startdate = tzinfo.localize(startdate_datetime)
+                       
+                        enddate_datetime = datetime.strptime(enddate, "%m/%d/%Y")
+                        patched_enddate = tzinfo.localize(enddate_datetime)
+
+                        try:
+                            created_obj = plone.api.content.create(container=container, type="Event", start=patched_startdate, end=patched_enddate, whole_day=True, title=title)
+                            plone.api.content.transition(obj=created_obj, to_state="published")
+                            created_obj.reindexObject()
+                            print "Exhibition '%s' created" %(title)
+                            transaction.get().commit()
+                        except:
+                            raise
+                    else:
+                        print "[Warning] Exhibition '%s' not created - start and end date not available" %(title)
                 
             except:
                 print "Error ocurred for exhibition %s" %(str(elem))
