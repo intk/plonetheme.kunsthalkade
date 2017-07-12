@@ -79,7 +79,110 @@ def translateArtists(language="en"):
 
     return True
 
-def createArtistsRelations():
+def translateExhibitions(language="en"):
+    import plone.api
+    import transaction
+    from plone.app.multilingual.interfaces import ITranslationManager
+    from zope.event import notify
+    from zope.lifecycleevent import ObjectModifiedEvent
+
+    container_path = "/nl/nu-en-verwacht/activiteiten"
+
+    with plone.api.env.adopt_user(username="admin"):
+        container = plone.api.content.get(path=container_path)
+
+        total = len(list(container))
+        curr = 0
+
+        for _id in list(container):
+            curr += 1
+            print "Translating Exhibition %s / %s to '%s'" %(curr, total, language)
+            exhibition = container[_id]
+            if exhibition.portal_type == "Event":
+                if not ITranslationManager(exhibition).has_translation(language):
+                    ITranslationManager(exhibition).add_translation(language)
+                    exhibition_translated = ITranslationManager(exhibition).get_translation(language)
+                    exhibition_translated.title = exhibition.title
+                    exhibition_translated.start = exhibition.start
+                    exhibition_translated.end = exhibition.end
+                    exhibition_translated.description = exhibition.description
+                    exhibition_translated.text = exhibition.text
+                    exhibition_translated.whole_day = exhibition.whole_day
+                    exhibition_translated.portal_workflow.doActionFor(exhibition_translated, "publish", comment="published")
+                    exhibition_translated.reindexObject()
+                    transaction.get().commit()
+                    if hasattr(exhibition, 'slideshow'):
+                        slideshow = exhibition['slideshow']
+                        ITranslationManager(slideshow).add_translation(language)
+                        slideshow_trans = ITranslationManager(slideshow).get_translation(language)
+                        slideshow_trans.title = slideshow.title
+                        slideshow_trans.portal_workflow.doActionFor(slideshow_trans, "publish", comment="Slideshow published")
+                        
+                        for sitem in slideshow:
+                            if slideshow[sitem].portal_type == "Image":
+                                if not ITranslationManager(slideshow[sitem]).has_translation(language):
+                                    ITranslationManager(slideshow[sitem]).add_translation(language)
+                                    trans = ITranslationManager(slideshow[sitem]).get_translation(language)
+                                    trans.image = slideshow[sitem].image
+                        exhibition_translated.reindexObject()
+                        exhibition_translated.reindexObject(idxs=["hasMedia"])
+                        exhibition_translated.reindexObject(idxs=["leadMedia"])
+                        notify(ObjectModifiedEvent(exhibition_translated))
+
+                    print "Translation added for Exhibition '%s'" %(exhibition.title)
+                else:
+                    print "Exhibition '%s' already has a translation to '%s'" %(exhibition.title, language)
+                    print "- Translating slideshow"
+                    exhibition_translated = ITranslationManager(exhibition).get_translation(language)
+                    if hasattr(exhibition, 'slideshow'):
+                        slideshow = exhibition['slideshow']
+                        if ITranslationManager(slideshow).has_translation(language):
+                            print "-- Slideshow alredy has a translation."
+                            slideshow_trans = ITranslationManager(slideshow).get_translation(language)
+                            slideshow_trans.title = slideshow.title
+                            try:
+                                slideshow_trans.portal_workflow.doActionFor(slideshow_trans, "publish", comment="Slideshow published")
+                            except:
+                                pass
+
+                            print "--- Translating images"
+                            for sitem in slideshow:
+                                if slideshow[sitem].portal_type == "Image":
+                                    if not ITranslationManager(slideshow[sitem]).has_translation(language):
+                                        ITranslationManager(slideshow[sitem]).add_translation(language)
+                                        trans = ITranslationManager(slideshow[sitem]).get_translation(language)
+                                        trans.image = slideshow[sitem].image
+                            exhibition_translated.reindexObject()
+                            exhibition_translated.reindexObject(idxs=["hasMedia"])
+                            exhibition_translated.reindexObject(idxs=["leadMedia"])
+                            notify(ObjectModifiedEvent(exhibition_translated))
+                            transaction.get().commit()
+                        else:
+                            print "-- Slideshow doesn't have a translation. Translating slideshow folder."
+                            ITranslationManager(slideshow).add_translation(language)
+                            slideshow_trans = ITranslationManager(slideshow).get_translation(language)
+                            slideshow_trans.title = slideshow.title
+                            try:
+                                slideshow_trans.portal_workflow.doActionFor(slideshow_trans, "publish", comment="Slideshow published")
+                            except:
+                                pass
+
+                            print "--- Translating images."
+                            for sitem in slideshow:
+                                if slideshow[sitem].portal_type == "Image":
+                                    if not ITranslationManager(slideshow[sitem]).has_translation(language):
+                                        ITranslationManager(slideshow[sitem]).add_translation(language)
+                                        trans = ITranslationManager(slideshow[sitem]).get_translation(language)
+                                        trans.image = slideshow[sitem].image
+                            exhibition_translated.reindexObject()
+                            exhibition_translated.reindexObject(idxs=["hasMedia"])
+                            exhibition_translated.reindexObject(idxs=["leadMedia"])
+                            notify(ObjectModifiedEvent(exhibition_translated))
+                            transaction.get().commit()
+                    print "Slideshow and images for Exhibition '%s' are translated" %(exhibition.title)
+    return True
+
+def createArtistsRelations(language="nl"):
     import csv
     import plone.api
     import transaction
@@ -91,7 +194,7 @@ def createArtistsRelations():
 
     intids = component.getUtility(IIntIds)
 
-    file_path = "/var/www/kunsthalkade-dev/import/artists-v4.tsv"
+    file_path = "/var/www/kunsthalkade/import/artists-v4.tsv"
     container_path = "/nl/online-archief/kunstenaars"
     #container_path = "/nl/intk/test-artists-import"
 
@@ -124,19 +227,20 @@ def createArtistsRelations():
                     print "---\n" """
 
                     """ Find exhibition """
-                    exhibitions = plone.api.content.find(context=portal, portal_type='Event', Title=exhibition)
+                    exhibitions = plone.api.content.find(context=portal, portal_type='Event', Title=exhibition, Language=language)
                     if exhibitions:
                         exhibition_obj = None
                         if len(exhibitions) > 1:
-                            exhibition_obj = [ex for ex in exhibitions if 'online-archief' or 'nu-en-verwacht' in ex.getURL()][0].getObject()
+                            #exhibition_obj = [ex for ex in exhibitions if 'online-archief' or 'nu-en-verwacht' in ex.getURL()][0].getObject()
+                            exhibition_obj = exhibitions[0].getObject()
                         else:
                             exhibition_obj = exhibitions[0].getObject()
                         
                         """ Find artist """
-                        artists_results = plone.api.content.find(context=portal, Language='nl', portal_type="Person", Title="*%s*" %(lastname.strip()))
+                        artists_results = plone.api.content.find(context=portal, Language=language, portal_type="Person", Title="*%s*" %(lastname.strip()))
                         artist_obj = None
                         for res in artists_results:
-                            if res.getObject().firstname == firstname:
+                            if res.getObject().firstname.strip() == firstname.strip():
                                 artist_obj = res.getObject()
                                 break
 
@@ -155,6 +259,9 @@ def createArtistsRelations():
                                 print "Creating - Relation from '%s' to '%s %s' created" %(exhibition, firstname, lastname)
                             else:
                                 print "Skipping - Relation from '%s' to '%s %s' already created" %(exhibition, firstname, lastname)
+                                """exhibition_obj.relatedItems = []
+                                notify(ObjectModifiedEvent(exhibition_obj))
+                                transaction.get().commit()"""
                         else:
                             print "Artists '%s %s' not found" %(firstname, lastname)
                             if "%s %s"%(firstname, lastname) not in artists_without_relations:
@@ -611,15 +718,10 @@ class FullScreenCollectionView(CollectionView):
 
 
 
-
-
-
-
-
 def objectTranslated(ob, event):
     if ob:
         if ITranslatable.providedBy(ob):
-            if getattr(ob, 'language', None) == "en" and getattr(ob, 'portal_type', None) in ["Document", "Event"]:
+            if getattr(ob, 'language', None) in ["en", "de"] and getattr(ob, 'portal_type', None) in ["Document", "Event"]:
                 createdEvent(ob, event)
                 if not hasattr(ob, 'slideshow'):
                     if ITranslationManager(ob).has_translation('nl'):
@@ -627,15 +729,15 @@ def objectTranslated(ob, event):
                         
                         if hasattr(original_ob, 'slideshow'):
                             slideshow = original_ob['slideshow']
-                            ITranslationManager(slideshow).add_translation('en')
-                            slideshow_trans = ITranslationManager(slideshow).get_translation('en')
+                            ITranslationManager(slideshow).add_translation(getattr(ob, 'language', None))
+                            slideshow_trans = ITranslationManager(slideshow).get_translation(getattr(ob, 'language', None))
                             slideshow_trans.title = slideshow.title
                             slideshow_trans.portal_workflow.doActionFor(slideshow_trans, "publish", comment="Slideshow published")
                             
                             for sitem in slideshow:
                                 if slideshow[sitem].portal_type == "Image":
-                                    ITranslationManager(slideshow[sitem]).add_translation('en')
-                                    trans = ITranslationManager(slideshow[sitem]).get_translation('en')
+                                    ITranslationManager(slideshow[sitem]).add_translation(getattr(ob, 'language', None))
+                                    trans = ITranslationManager(slideshow[sitem]).get_translation(getattr(ob, 'language', None))
                                     trans.image = slideshow[sitem].image
                                     addCropToTranslation(slideshow[sitem], trans)
 

@@ -161,9 +161,6 @@
         css:if-content="body.template-online_experience"
         />
 
-      
-
-
       <!-- Central column -->
       <replace css:theme="#content-container">
 
