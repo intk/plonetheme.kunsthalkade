@@ -2716,7 +2716,7 @@ footer {
 			p {
 				text-transform: uppercase;
 				.CalibreRegular();
-				font-size: 1.100em;
+				font-size: 1.000em;
 				margin-bottom: 5px;
 				margin-top: 20px;
 
@@ -2727,7 +2727,7 @@ footer {
 
 			li {
 				letter-spacing: 0.01em;
-				font-size: 15px;
+				font-size: 13px;
 				line-height: 14px !important;
 			}
 		}
@@ -6235,6 +6235,10 @@ html.ie9 {
 			}
 		}
 	}
+
+	.input-group-btn .submit-button {
+	    padding-bottom: 10px;
+	}
 }
 
 
@@ -6911,6 +6915,21 @@ body:not(.portaltype-collection):not(.portaltype-folder) {
 	-webkit-padding-start: 0; 
 	-webkit-margin-before: 0;
     -webkit-margin-after: 0;
+    -moz-padding-start: 0;
+    -moz-margin-before: 0;
+    -moz-margin-after: 0;
+    -khtml-padding-start: 0;
+	-o-padding-start: 40;
+	padding-start: 4;
+}
+
+html.ie11,
+html.ie10,
+html.ie9 {
+	.social-media-wrapper ul {
+		margin: 0;
+		padding: 0;
+	}
 }
 
 .social-media-wrapper ul li {
@@ -6940,10 +6959,76 @@ body:not(.portaltype-collection):not(.portaltype-folder) {
 			position: absolute;
 		    top: 0;
 		    right: 0;
-		    width: 0px;
+		    width: 145px;
 		    height: 100%;
-		    padding-bottom: 45px;
 
+		    &> .col-xs-12 {
+		    	padding-left: 0px !important;
+		    	padding-right: 0px !important;
+		    	height: 100%;
+
+		    	.portletWrapper {
+		    		width: 100%;
+		    		height: 100%;
+		    	}
+		    }
+
+		    .portletStaticText {
+			    width: 100%;
+			    height: 100%;
+
+			    .top-right-wrapper {
+			    	width: 100%;
+			    	height: 100%;
+			    	padding-right: 30px;
+
+			    	.top-right-img {
+			    		width: 100%;
+			    		height: 100%;
+			    		background-repeat: no-repeat;
+			    		background-size: contain;
+			    		background-position: top right;
+			    	}
+			    }
+
+			    p {
+			    	.CalibreRegular();
+			    	font-size: 23px;
+
+			    	&> span:first-child {
+			    		border-bottom: 2px solid #000000;
+			    	}
+			    }
+		    }
+
+
+		}
+
+		#slickcarousel {
+			margin-right: 145px;
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	body.frontend.portaltype-portlet-page .intro-header {
+		#top-right-header {
+			padding-bottom: 140px;
+		}
+	}
+
+	body.frontend:not(.portaltype-portlet-page) .intro-header {
+		#top-right-header {
+			padding-bottom: 45px;
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	body.frontend.template-simple_listing_view .intro-header,
+	body.frontend.template-exhibition_view .intro-header {
+		#top-right-header {
+			width: 0px;
 		    .portletStaticText {
 		    	-ms-transform: rotate(90deg) translate(0px, 40px);
 		    	-webkit-transform: rotate(90deg) translate(0px, 40px);
@@ -6956,21 +7041,23 @@ body:not(.portaltype-collection):not(.portaltype-folder) {
 			    float: left;
 			    max-width: 500px;
 			    min-width: 500px;
-
-			    p {
-			    	.CalibreRegular();
-			    	font-size: 23px;
-
-			    	&> span:first-child {
-			    		border-bottom: 2px solid #000000;
-			    	}
-			    }
-		    }
+			}
 		}
+	}
+}
 
-		#slickcarousel {
-			margin-right: 145px;
+@media(min-width: 1950px) {
+	body.frontend .intro-header {
+		#top-right-header {
+		    width: 220px;
 		}
+	}
+}
+
+
+@media(min-width: 1950px) {
+	body.frontend .intro-header #slickcarousel {
+		margin-right: 220px;
 	}
 }
 
@@ -7137,6 +7224,10 @@ body.portaltype-folder {
 		padding-right: 15px;
 		padding-left: 10px;
 	}
+}
+
+body.slideshow-empty #portal-column-two {
+	padding-top: 420px;
 }
 
 #row-items .portlet-item {
@@ -7424,7 +7515,7 @@ body.frontend.section-frontpage {
 					text-decoration: underline !important;
 					margin-bottom: 10px !important;
 					text-decoration: underline;
-				    font-size: 1.100em !important;
+				    font-size: 0.950em !important;
 				   	.CalibreRegular();
 				    width: 250px !important;
 				    margin-bottom: 10px !important;
@@ -8000,10 +8091,10 @@ body.template-exhibition_view {
 		margin-bottom: 22px !important;
 
 		p {
-			margin-bottom: 17px !important;
+			margin-bottom: 22px !important;
 			margin-left: -15px !important;
 			.CalibreMedium();
-			font-size: 1.800em !important;
+			font-size: 1.600em !important;
 		}
 	}
 
@@ -8023,7 +8114,7 @@ body.template-exhibition_view {
 
 	@media(min-width: 991px) {
 		p.event-date {
-			font-size: 30px !important;
+			font-size: 26px !important;
 		}
 	}
 
@@ -8093,6 +8184,13 @@ body.template-exhibition_view {
 		padding-right: 30px;
 		padding-top: 15px;
 	}
+
+	body.template-exhibition_view {
+		#global_statusmessage {
+			padding-right: 0px;
+			padding-top: 0px;
+		}
+	}
 }
 
 /* NEW FONT */
@@ -8102,6 +8200,8 @@ body.template-exhibition_view {
 		overflow-y: hidden !important;
 	}
 }
+
+
 
 
 
