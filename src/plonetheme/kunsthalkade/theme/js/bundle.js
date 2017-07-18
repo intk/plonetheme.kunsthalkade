@@ -1750,7 +1750,9 @@ if (jQuery('.portlet-collection-front-page-collection').length) {
     var msnry = new Masonry(elem, {
        itemSelector: '.portlet-item',
        gutter: 16,
-       fitWidth: true
+       fitWidth: true,
+       columnWidth: 210,
+       horizontalOrder: true
     });
     $(".portlet-collection-front-page-collection").addClass('init');
   });
