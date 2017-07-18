@@ -481,6 +481,25 @@ class SimpleListingView(CollectionView):
 
 class ContextToolsView(BrowserView):
 
+    def getCollectionItems(self, item):
+        collection = item.getObject()
+        LIMIT = 3
+
+        results = []
+        if collection is not None:
+            if LIMIT and LIMIT > 0:
+                results = collection.queryCatalog(
+                    batch=True,
+                    b_size=LIMIT
+                )
+                results = results._sequence
+            else:
+                results = collection.queryCatalog()
+
+            if LIMIT and LIMIT > 0:
+                results = results[:LIMIT]
+        return results
+
     def isEventPast(self, event):
         """ Checks if the event is already past """
         if event.portal_type != 'Event':
