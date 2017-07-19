@@ -91,12 +91,19 @@
         />
 
       <replace
+        css:theme-children="#top-header"
+        css:content-children=".top-portlets"
+        method="raw"
+        />
+
+      <replace
         css:theme-children="#top-right-small"
         css:content-children=".topright-portlets"
         method="raw"
         />
 
       <drop css:content=".topright-portlets"/>
+      <drop css:content=".top-portlets"/>
 
       <drop css:content="#viewlet-below-content-body"/>
       <drop css:content="#viewlet-above-content-title"/>

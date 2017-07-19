@@ -39,7 +39,7 @@
                     is_archive python: 'online-archief' in obj.getURL();"
         >
         
-        <!-- <tal:collection tal:condition="item_is_collection">
+        <tal:collection tal:condition="item_is_collection">
           <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)">
             <tal:collectionitems tal:define="colitems python: context.restrictedTraverse('@@context_tools').getCollectionItems(obj)">
               <tal:resultitems tal:repeat="colitem colitems">
@@ -100,16 +100,17 @@
                         </div>
                       </div>
                     </div>
-                    <div class="link-wrapper">
-                      <a tal:attributes="href itemUrl" tal:content="obj/Title"></a>
-                    </div>
+                    
                   </tal:is_event>
                 </tal:collectionitem>
               </tal:resultitems>
+              <div class="link-wrapper">
+                      <a tal:attributes="href itemUrl" tal:content="obj/Title"></a>
+                    </div>
             </tal:collectionitems>
           </div>
         </tal:collection>
-        -->
+        
 
         <tal:notevent tal:condition="python: not item_is_event and not item_is_collection">
         <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)">
