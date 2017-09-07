@@ -5,7 +5,7 @@
        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
        xmlns:xi="http://www.w3.org/2001/XInclude">
 
-
+    <theme href="index_online_experience.html" css:if-content="body.template-etickets"/>
     <theme href="backend.html" css:if-not-content="body.frontend"/>
     <theme href="index.html" css:if-content="body.frontend"/>
 

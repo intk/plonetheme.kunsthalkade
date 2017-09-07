@@ -8341,6 +8341,954 @@ body.frontend.portaltype-folder {
 }
 
 
+/* TICKETS */
+
+body.template-mollie_payment_success {
+	a.payment_button {
+		.buttonField();
+		display: inline-block;
+	}
+}
+
+body.template-cart,
+body.template-checkout {
+
+	#form-widgets-email {
+		width: 100% !important;
+	}
+
+	.subtotal-th, .subtotal-col {
+		padding-right: 0px !important;
+	}
+	
+	.subtotal-col {
+		padding-top: 27px !important;
+	}
+
+	.post-cart {
+		padding-bottom: 50px;
+	}
+
+	.intro-header {
+		position: relative;
+	    height: 100%;
+	    background-repeat: no-repeat;
+	    background-size: cover;
+		background-position: center;
+
+		@media (min-width: 992px) {
+			margin-top: 49px;
+		}
+	}
+
+	.intro-header:before {
+		padding-top: 0;
+		content: "";
+		display: table;
+	}
+
+	.intro-header {
+		position: relative;
+	}
+
+	div#website-title {
+		position: absolute;
+		width: 100%;
+		text-align: center;
+		top: 48%;
+
+		h1 {
+		    font-weight: 800 !important;
+		    font-size: 3.125em !important;
+		    line-height: 50px !important;
+		    color: #ffffff !important;
+		    letter-spacing: 0.02em;
+		    text-transform: uppercase;
+		    margin: 0 auto;
+		    display: block;
+
+		    @media (max-width: 991px) {
+				font-size: 36px !important;
+			}	
+		}
+
+		@media (max-width: 991px) {
+			
+		}
+
+		
+	}
+
+	.brand-name {
+	}
+
+	.title-container {
+		padding-top: 50px;
+	}
+
+	h2 {
+	    font-weight: 700;
+	    color: @brand-primary;
+	    line-height: 36px;
+	    font-size: 1.875em;
+	    margin: 0 0;
+	}
+
+	p {
+	    letter-spacing: 0.00em;
+	    line-height: 33px;
+	    color: #333333;
+	}
+
+	h3 {
+	    font-weight: 700;
+	    color: @brand-primary;
+	    line-height: 24px;
+	    font-size: 1.500em;
+	    margin: 0 0;
+	}
+
+	div.discount_coupon_title h4 {
+		font-size: 18px !important;
+		padding-bottom: 8px !important;
+	}
+
+	input.cart_couponcode {
+		height: 55px !important;
+		font-size: 16px !important;
+		width: 100% !important;
+	}
+
+
+	div.tickets-breadcrumbs button.btn,
+	div.tickets-breadcrumbs a.btn, 
+	a.btn.discount_coupon_button,
+	a.btn.cart_checkout_button {
+	    .buttonField();
+	    display: inline-block;
+	    padding: 15px 25px !important;
+	}
+
+	@media(max-width: 768px) {
+		div.discount_coupon_wrapper {
+			padding: 15px !important;
+		}
+
+		div.post-cart {
+			padding-top: 30px;
+		}
+	}
+
+	a.btn.discount_coupon_button,
+	a.btn.cart_checkout_button {
+
+	}
+
+	.tickets-breadcrumbs .btn.step {
+    	margin: 0px 0px;
+
+    	@media(max-width: 991px) {
+    		margin: 5px 0px;
+    	}
+	}
+
+	#content div.tickets-breadcrumbs button.btn.selected,
+	#content div.tickets-breadcrumbs a.btn.selected {
+	    background: @brand-primary !important;
+	    cursor: pointer;
+	    pointer-events: none;
+	    color: #ffffff !important;
+	    border-color: @brand-primary !important;
+	}
+
+
+	div.tickets-breadcrumbs button.btn:not(.disabled):not(.selected):hover {
+		background: #000000 !important;
+		box-shadow: none !important;
+	}
+
+	div.tickets-breadcrumbs a.btn:not(.disabled):not(.selected):hover {
+		background: @brand-primary !important;
+		box-shadow: none !important;
+		border-color: @brand-primary !important;
+		color: #ffffff !important;
+	}
+
+	div.tickets-breadcrumbs a.btn {
+		text-shadow: none !important;
+	}
+
+	div.tickets-breadcrumbs {
+	    padding-top: 0px;
+	    padding-bottom: 30px;
+	}
+
+	.h3-like {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.cart_item select {
+	    background-color: @brand-primary !important;
+	    color: #ffffff !important;
+	    -webkit-transition: none !important;
+	    -o-transition: none !important;
+	    transition: none !important;
+	    -moz-box-shadow: none !important;
+	    -webkit-box-shadow: none !important;
+	    box-shadow: none !important;
+	    width: 102px !important;
+	    border-radius: 0px !important;
+	    -webkit-appearance: none !important;
+	    border: 0 !important;
+	    font-weight: 400 !important;
+	    vertical-align: top;
+	    height: 43px;
+	    padding: 14px 18px;
+	    line-height: 17px;
+	    -moz-appearance: none !important;
+	    text-indent: 0.01px !important;
+	    text-overflow: '' !important;
+	    overflow: hidden;
+	    vertical-align: top;
+
+	    &:hover {
+	    	cursor: pointer;
+	    }
+
+	    @media (max-width: 991px) {
+	    	width: 75px !important;
+	    }
+	}
+
+	.table-responsive {
+		border:0px !important;
+	}
+
+	.cart-select-box {
+    	position: relative;
+    	display: inline-block;
+	}
+
+	.cart-select-box:after {
+		content: " ";
+	    height: 0;
+	    width: 0;
+	    border-left: 5px solid transparent;
+	    border-right: 5px solid transparent;
+	    border-top: 5px solid #ffffff;
+	    position: absolute;
+	    right: 18px;
+	    top: 20px;
+	    transition: all 0.3s linear;
+	    pointer-events: none;
+	}
+
+	.main-container {
+		@media (min-width: 767px) {
+			width: 100%;
+			padding-right: 25px !important;
+			padding-left: 20px !important;
+		}
+	}
+
+	tr.cart-header th h4 {
+	    text-transform: uppercase;
+	    letter-spacing: 0.05em;
+	    background-color: #ffffff !important;
+	    font-size: 1.000em !important;
+	}
+
+	tr.cart-header th {
+		padding-left: 0px;
+	}
+
+	tr.cart_item td {
+		padding-left: 0px;
+		padding-right: 20px;
+		border-bottom: 0.1em solid #e4e4e4;
+		padding-top: 26px;
+    	padding-bottom: 7px;
+
+    	&.quantity-col {
+		    padding-top: 18px;
+			padding-bottom: 20px;
+    	}
+	}
+	.cart_item_content {
+    	padding-top: 0px;
+	}
+
+	tr {
+		font-size: 1.000em;
+	}
+
+	.cart_item {
+	    border-bottom: 0.1em solid #ccc;
+	    padding-bottom: 0.5em;
+	    margin-bottom: 1em;
+	}
+
+	h4 {
+		margin: 0 0;
+		line-height: 21px;
+		color: #333333;
+		font-weight: 400 !important;
+		font-size: 16px !important;
+		margin-top: 0px !important;
+	}
+
+	.separator_template {
+		background: #ffffff;
+	}
+
+	thead {
+		border-bottom: 0.1em solid #ccc;
+	}
+
+	.post-cart h3 {
+		padding-bottom: 30px;
+	}
+
+	.cart_sum_content {
+		margin-top: 30px;
+    	margin-bottom: 50px;
+    	font-size: 1.200em;
+	}
+
+	a.btn.cart_checkout_button,
+	a.btn.discount_coupon_button {
+		.buttonField();
+		display: inline-block;
+		margin-left: 10px;
+		padding: 16px 25px !important;
+
+		&:active,
+		&:focus,
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.portletCalendar {
+		@media (min-width: 991px) {
+			width: 33%;
+		}
+
+		.portletHeader > a {
+			color: @brand-primary;
+		}
+
+		.cal_has_events a:after {
+			color: @brand-primary !important;
+		}
+
+		.ploneCalendar td.today.selected {
+			border-color: @brand-primary !important;
+		}
+
+		.table-time .time-free:not(.time-ua):hover {
+			color: #7ed321 !important;
+		}
+
+		.table-time .time-busy:not(.time-ua) {
+		    color: #7ed321 !important;
+		}
+
+		.table-time .time-busy:not(.time-ua):hover {
+		    color: #7ed321 !important;
+		}
+
+		a.calendarNext:hover {
+			color: @brand-primary !important;
+
+			&:after {
+				color: @brand-primary !important;
+			}
+		}
+	}
+
+	@media(max-width: 768px) {
+		.subtotal-th, .subtotal-col {
+			display: none !important;
+		}
+
+		h4 {
+			font-size: 0.750em !important;
+		}
+	}
+}
+
+
+body.template-checkout {
+	#slickcarousel,
+	.intro-header {
+		margin-bottom: 0px !important;
+	}
+
+	.main-block {
+		padding-top: 0px !important;
+	}
+
+	.cd-navigation-wrapper {
+		padding-top: 120px !important;
+	}
+
+	select {
+	    background-color: #f5f5f5;
+	    border: 0 !important;
+	    -webkit-box-shadow: none !important;
+	    box-shadow: none !important;
+	    font-weight: 400 !important;
+	    font-size: 1.000em !important;
+	    color: #000000 !important;
+	    vertical-align: top;
+	    height: 43px;
+	    cursor: pointer;
+
+	    option {
+	    	color: #000000;
+	    }
+	}
+
+	div.field input[type="text"]:not(#form-widgets-email),
+	div.field input[type="email"]:not(#form-widgets-email) {
+	    font-weight: 400 !important;
+	    font-size: 1.000em !important;
+	    color: #000000 !important;
+	    background-color: #f5f5f5 !important;
+	    border: 0 !important;
+	    -webkit-box-shadow: none !important;
+	    box-shadow: none !important;
+	    padding: 0.2em!important;
+	    padding-top: 0.1em !important;
+    	padding-left: 0.9em !important;
+    	width: 15em;
+    	height: 43px;   	
+	}
+
+	div.field label {
+	    font-weight: 400 !important;
+	    font-size: 1.100em !important;
+	    display: inline-block;
+	    max-width: 100%;
+	    margin-bottom: 15px;
+	    .CalibreLight();
+	}
+
+	h2 {
+		.CalibreRegular();
+		padding-top: 10px;
+		margin-top: 1em;
+	    margin-bottom: 0.5em;
+	    padding-bottom: 0.25em;
+	    border-bottom: 0.1em solid #bbb;
+	    font-weight: 700;
+	    line-height: 36px;
+	    font-size: 1.350em !important;
+	    margin: 0 0;
+	    letter-spacing: 0.05em;
+
+	}
+
+	#input-checkout-checkout_back,
+	#input-checkout-next {
+		.buttonField();
+	}
+
+	#cart_summary {
+		font-size: 18px;
+		.CalibreRegular();
+	}
+
+	.mode_display .field {
+		font-size: 14px;
+		color: #000000;
+		.CalibreLight();
+	}
+
+	.checkout_cart_overview {
+		.cart_item h4 {
+			font-size: 1.150em !important;
+		    padding-bottom: 20px !important;
+		    text-transform: uppercase;
+		    letter-spacing: 0.075em;
+		    .CalibreMedium();
+		}
+
+		.cart_item td.quantity-col {
+			padding-top: 37px !important;
+			padding-bottom: 12px !important;
+		}
+
+		tr.cart-header th h4 {
+			font-size: 1.125em !important;
+			.CalibreMedium();
+		}
+
+		.cart_item td {
+			padding-top: 35px !important;
+		}
+
+		.subtotal-col,
+		.subtotal-th {
+			padding-right: 0px !important;
+		}
+
+		.cart_sum_content {
+			font-size: 1.125em !important;
+		}
+	}
+
+	#form-checkout.mode_display label {
+    	display: none;
+	}
+
+	#form-checkout #field-checkout-accept_terms_and_conditions-accept label {
+	    display: inline !important;
+	}
+
+	#form-checkout #field-checkout-accept_terms_and_conditions-accept a {
+		color: #000000 !important;
+		text-decoration: underline !important;
+		&:hover,
+		&:active,
+		&:focus {
+			color: #000000 !important;
+		}
+	}
+
+	#form-checkout #field-checkout-accept_terms_and_conditions-accept {
+		padding-bottom: 15px;
+	}
+
+	.checkbox {
+	    display: inline-block;
+	}
+
+	#input-checkout-confirm_back,
+	#input-checkout-finish {
+		.buttonField();
+		font-size: 1.000em !important;
+	}
+
+	@media(max-width: 768px) {
+		div.field {
+			width: 100% !important;
+			clear: both !important;
+			display: block;
+			input:not([type="radio"]) {
+				width: 100% !important;
+			}
+
+			select {
+				width: 100% !important;
+			}
+		}
+
+		.intro-header {
+			height: 400px !important;
+		}
+
+		.navbar-fixed-top {
+			background: transparent !important;
+			border: 0px !important;
+		}
+	}
+
+	#input-checkout-checkout_back,
+	#input-checkout-next,
+	#input-checkout-confirm_back,
+	#input-checkout-finish {
+	    .buttonField();
+	    padding-bottom: 11px;
+	    display: inline-block;
+	    margin-right: 10px;
+	    height: 54px;
+	    margin-top: 50px;
+	}
+
+	#input-checkout-confirm_back,
+	#input-checkout-finish {
+		padding: 13px 28px !important;
+    	padding-bottom: 12px !important;
+	}
+}
+
+.template-etickets * {
+    font-weight: 400 !important;
+}
+
+body.template-etickets {
+
+	#slickcarousel, #logo-wrapper, #cd-nav, .cd-nav-trigger, .title-container {
+		display: none !important;
+	}
+
+	#portal-logo {
+		display: none !important;
+	}
+
+	#cart {
+		width: 100% !important;
+	    padding-left: 55px !important;
+	    padding-right: 55px !important;
+	    padding-top: 0px !important;
+	    background: transparent !important;
+	    z-index: 10000 !important;
+	}
+
+	.ticket-item:not(:first-child) #ticket-header {
+    	margin-top: 35px !important;
+	}
+
+	.ticket-item #ticket-header {
+    	padding: 20px !important;
+    	background-color: @brand-primary !important;
+    	border-radius: 0px !important;
+	}
+
+	.cart_item {
+    	padding-top: 15px !important;
+    	width: 100% !important;
+    	border-bottom: 0px !important;
+	}
+
+	table {
+    	width: 100%;
+	}
+
+	.cart_item tr {
+    	height: 40px !important;
+    	color: #666666;
+    	font-size: 1.000em;
+	}
+
+	td:not(.ticket-info) {
+    	padding-right: 0px !important;
+    	line-height: 24px !important;
+    	padding: 0px !important;
+	}
+
+	td {
+		padding-left: 10px !important;
+	}
+
+	td.ticket-info {
+	    width: 55%;
+	    font-size: 9px !important;
+	    padding-top: 0px !important;
+	}
+
+	span {
+    	font-size: 16px !important;
+    	color: #666666 !important;
+	}
+
+	.info-div {
+    	margin-left: 12px !important;
+	}
+
+	.info-div p {
+    	letter-spacing: 0.015em !important;
+	}
+
+	.info-div p {
+    	margin: 3px !important;
+    	line-height: 10px !important;
+    	font-size: 9px !important;
+    	margin: 0px 0 !important;
+
+    	&:first-child {
+    		margin-top: 0px !important;
+    	}
+	}
+
+	#content ul {
+   	 	margin-left: 0px !important;
+        -webkit-padding-start: 15px !important;
+	}
+
+	li  {
+		display: list-item;
+	}
+
+	h3 {
+	    font-size: 16px !important;
+	    color: @brand-primary !important;
+	    font-weight: 800 !important;
+	    letter-spacing: 0.06em !important;
+	    line-height: 24px;
+	    margin: 0 0;
+	}
+
+	#ticket-footer {
+	    padding-top: 25px !important;
+	    height: auto !important;
+	    padding-right: 50px !important;
+	    padding:0px !important;
+	}
+
+	#ticket-footer div {
+    	padding-left: 0px !important;
+    	padding-top: 5px !important;
+	}
+
+	h4 {
+    	color: @brand-primary !important;
+    	font-weight: 800 !important;
+    	letter-spacing: 0.06em !important;
+    	line-height: 21px;
+	    margin: 0 0;
+	    margin-top: 0px !important;
+	    font-size: 16px !important;
+	}
+
+	#ticket-footer p, #ticket-footer ul > li {
+	    font-size: 9px !important;
+	    line-height: 12px !important;
+	    letter-spacing: 0.07em !important;
+	    color: #666666 !important;
+	    margin: 1px 0 !important;
+	}
+
+	.logo-container {
+    	height: 50px !important;
+	}
+
+	.tickets-title h1 {
+	    font-family: sans-serif !important;
+	    margin-left: 3px;
+	}
+
+	h1 {
+	    font-size: 20px !important;
+	    color: #ffffff !important;
+	    line-height: 160px !important;
+	    text-transform: uppercase !important;
+	    margin-top: 120px !important;
+	    color: #ffffff !important;
+	}
+
+	.tickets-title {
+	    height: 100px !important;
+	}
+
+	.title-aux {
+	    font-family: sans-serif !important;
+	    text-transform: uppercase;
+	    margin-bottom: 0px !important;
+	    font-size: 40px;
+	    color: #ffffff !important;
+	    margin: 0 0 !important;
+	}
+
+	.intro-header {
+		display: none !important;
+	}
+
+	.ticket-barcode {
+		padding-bottom: 30px !important;
+	}
+
+	.main-container {
+		padding: 0px !important;
+	}
+
+	.ticket-item:not(:last-child) {
+		padding-bottom: 60px !important;
+	}
+
+}
+
+
+body.template-etickets footer {
+	display: none;
+}
+
+body.template-etickets img.logo {
+	width: 240px !important;
+	height: auto !important;
+}
+
+
+body.template-etickets {
+	#logos-wrapper {
+		width: 100%;
+		text-align: left;
+	}
+
+	#logos-wrapper img {
+		max-width: 100%;
+		margin: 0 auto;
+
+	}
+
+	.ticket-title {
+		font-style: italic;
+	}
+
+	.lorentz-formule {
+		font-style: italic;
+	}
+}
+
+body.template-cart {
+	@media(max-width: 768px) {
+		.navbar-fixed-top {
+			background: transparent !important;
+			border: 0px !important;
+		}
+	}
+}
+
+body.template-mollie_payment_success {
+	.intro-header {
+		position: relative;
+	    height: 100%;
+	    background-repeat: no-repeat;
+	    background-size: cover;
+		background-position: center;
+
+		@media (min-width: 992px) {
+			margin-top: 49px;
+		}
+	}
+
+	.intro-header:before {
+		padding-top: 0;
+		content: "";
+		display: table;
+	}
+
+	.intro-header {
+		position: relative;
+	}
+
+	article#content {
+		padding-top: 50px;
+	}
+
+	div#website-title {
+		position: absolute;
+		top: 48%;
+		text-align: center;
+		width: 100%;
+
+		h1 {
+		    font-weight: 800 !important;
+		    font-size: 2.125em !important;
+		    line-height: 50px !important;
+		    color: #ffffff !important;
+		    letter-spacing: 0.02em;
+		    text-transform: uppercase;
+		    margin: 0 auto;
+		    display: block;
+
+		    @media (max-width: 991px) {
+				font-size: 36px !important;
+			}	
+		}
+
+		@media (max-width: 991px) {
+			margin-left: -150px;
+			margin-top: -25px;
+		}
+
+		
+	}
+
+	.brand-name {
+		
+	}
+
+	.title-container {
+		padding-top: 50px;
+	}	
+
+	.wrapper-result-page {
+		@media (min-width: 991px) {
+		    width: 80%;
+		    margin: 0 auto;
+		    background: #ffffff;
+		    padding-bottom: 80px;
+		}
+	}
+
+	p {
+	    font-weight: 400;
+	    line-height: 33px;
+	    color: #333333;
+	    margin: 0 0 10.5px;
+	    font-size: 1.00em !important;
+	    letter-spacing: 0.00em !important;
+	}
+
+	a.payment_button {
+		.buttonField();
+		padding-bottom: 11px;
+		text-shadow: none !important;
+
+		&:active,
+		&:hover,
+		&:focus {
+			text-decoration: none;
+		}
+	}
+	#ordernumber_order_text strong {
+		color: #000000 !important;
+	}
+}
+
+body.template-etickets {
+	p.logo-text {
+		font-size: 30px;
+		text-transform: uppercase;
+		color: #ffffff;
+		margin-top: 0px;
+	}
+}
+
+
+body.template-checkout {
+	.title-container {
+		h1 {
+			.CalibreRegular();
+			text-align: center;
+			margin-top: 25px;
+			color: #000000;
+		    font-size: 3.500em;
+		    font-weight: 400;
+		    letter-spacing: 0.01em;
+		}
+	}
+
+	#global_statusmessage {
+		background: #ffffff !important;
+	}
+
+	.intro-header {
+		margin-top: 0px !important;
+	}
+
+	.title-container {
+		padding-bottom: 40px;
+		padding-top: 0px;
+
+		@media(min-width: 769px) {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+	}
+
+	article#content {
+		padding-top: 0px !important;
+	}
+
+}
+
+
+
 
 
 
