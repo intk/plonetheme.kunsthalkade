@@ -40,8 +40,9 @@
         >
         
         <tal:collection tal:condition="item_is_collection">
-          <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)">
-            <tal:collectionitems tal:define="colitems python: context.restrictedTraverse('@@context_tools').getCollectionItems(obj)">
+          <tal:collectionitems tal:define="colitems python: context.restrictedTraverse('@@context_tools').getCollectionItems(obj)">
+          <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)" tal:condition="python: len(colitems) > 0">
+            
               <tal:resultitems tal:repeat="colitem colitems">
                 <tal:collectionitem
                   tal:define="col_collection_id obj/UID;
@@ -107,8 +108,9 @@
               <div class="link-wrapper">
                       <a tal:attributes="href itemUrl" tal:content="obj/Title"></a>
                     </div>
-            </tal:collectionitems>
+            
           </div>
+          </tal:collectionitems>
         </tal:collection>
         
 

@@ -1251,7 +1251,7 @@ body.frontend, body#tinymce {
     	}
 
     	.portletItem.odd {
-    		border-bottom: 2px solid @brand-primary;
+    		border-bottom: 0px solid @brand-primary;
     		border-radius: 0px;
     		padding-bottom: 54px;
     	}
@@ -6863,7 +6863,7 @@ html.ie11 {
 
 .left-column .portletStaticText {
 
-	padding-top: 8px;
+	padding-top: 25px;
 
 	p {
 		font-size: 16px;
@@ -7173,6 +7173,9 @@ body.frontend.portaltype-folder .intro-header {
 
 .social-media-wrapper {
 	margin-top: -2px;
+	padding-top: 30px;
+    border-top: 2px solid #000000;
+    padding-bottom: 30px;
 }
 
 #sharing-buttons-toggle {
@@ -7456,7 +7459,7 @@ body.slideshow-empty #portal-column-two {
 	}
 }
 
-#portal-column-two > .portletWrapper:first-child #row-items .portlet-item,
+#portal-column-two > div:first-child #row-items .portlet-item,
 #portletPageSecondColumn > div:first-child #row-items .portlet-item {
 	padding-bottom: 0px !important;
 
@@ -7477,6 +7480,45 @@ body.slideshow-empty #portal-column-two {
 	@media(max-width: 991px) {
 		padding-left: 0px !important;
 		padding-right: 0px !important;
+	}
+}
+
+#portal-column-two .portlet-collection-kade-studio #row-items .portlet-item.Event {
+	.event-wrapper {
+		border: 0px !important;
+
+		h3.item-title {
+			.CalibreMedium() !important;
+			font-size: 1.500em !important;
+			padding-bottom: 8px !important;
+	   	 	padding-top: 0px !important;
+	   	 	line-height: 31px !important;
+
+	   	 	a {
+	   	 		border-bottom: 0px !important;
+		   	 	&:hover,
+		   	 	&:active,
+		   	 	&:focus {
+		   	 		text-decoration: underline !important;
+		   	 	}
+	   	 	}
+		}
+
+		div.date-wrapper {
+			display: none !important;
+		}
+
+		div.title-wrapper {
+			padding:0px !important;
+			p.event-date {
+				display: block !important;
+				padding-bottom: 15px;
+			}
+		}
+
+		div.thumb-wrapper {
+			display: block !important;
+		}
 	}
 }
 
