@@ -54,7 +54,8 @@
                               col_item_wf_state_class python:'state-' + plone_view.normalizeString(item_wf_state);
                               col_item_type colitem/portal_type;
                               col_item_type_class python:'contenttype-' + plone_view.normalizeString(item_type);
-                              col_item_is_event python: col_item_type in ['Event', 'Exhibition']">
+                              col_item_is_event python: col_item_type in ['Event', 'Exhibition']"
+                              >
                     <tal:is_event tal:condition="col_item_is_event">
                     <div class="event-wrapper">
                       <div class="date-wrapper">
@@ -145,19 +146,7 @@
           
           
           <div>
-            <metal:block metal:define-macro="document_byline">
-            <tal:event condition="item_is_event"
-             tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj)">
-              <p class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
-              <tal:date tal:replace="structure python:view.formatted_date(obj)"/>
-              <span tal:condition="obj/location" i18n:translate="label_event_byline_location">&mdash;
-                <span tal:content="string:${item/location}" class="location" i18n:name="location">Oslo</span>,
-              </span>
-              </p>
-            </tal:event>
             
-            
-          </metal:block>
             <p tal:content="obj/Description" class="item-description"></p>
           </div>
           </div>
@@ -168,10 +157,11 @@
       
 
       <tal:is_event tal:condition="item_is_event">
-        <div class="event-wrapper">
+        <div class="event-wrapper" 
+          tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj);
+                      date_state python: context.restrictedTraverse('@@context_tools').getEventDateState(obj)">
           <div class="date-wrapper">
-            <tal:event_date condition="item_is_event"
-              tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj)">
+            <tal:event_date condition="item_is_event">
                 <p class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
                   <tal:definedates tal:define="event_data python: view.date_speller(obj.start)">
                     <tal:archive tal:condition="not:is_archive">
@@ -202,6 +192,9 @@
           
           <div class="title-wrapper">
             <h3 class="item-title">
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'past'" i18n:translate="date_past">Geweest:</span>
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'future'" i18n:translate="date_future">Verwacht:</span>
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'current'" i18n:translate="date_current">Nu:</span>
                 <a href="#"
                  tal:attributes="href itemUrl;"
                  tal:content="obj/Title"
@@ -210,8 +203,7 @@
                 </a>
             </h3>
 
-            <tal:event condition="item_is_event"
-             tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj)">
+            <tal:event condition="item_is_event">
               <p class="event-date" tal:attributes="class python: 'event-date past' if is_past and not is_archive else 'event-date'">
               <tal:date tal:condition="not:is_archive" tal:replace="structure python:view.formatted_date(obj)"/>
               <tal:archive tal:condition="is_archive"

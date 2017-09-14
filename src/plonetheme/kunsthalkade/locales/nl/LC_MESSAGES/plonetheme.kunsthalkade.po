@@ -101,3 +101,15 @@ msgstr "Nu te zien"
 #: ../object.py
 msgid 'archive'
 msgstr "Archief"
+
+#: ../object.py
+msgid 'date_future'
+msgstr "Verwacht:"
+
+#: ../object.py
+msgid 'date_past'
+msgstr "Geweest:"
+
+#: ../object.py
+msgid 'date_current'
+msgstr "Nu:"
