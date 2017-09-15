@@ -6204,7 +6204,15 @@ body.disable-hover .entries * {
 }
 
 #babel-edit fieldset {
-	height: auto !important;
+	min-height: 2000px !important;
+}
+
+#babel-edit .field img {
+	max-width: 100% !important;
+}
+
+#babel-edit .formControls {
+	z-index:100000000;
 }
 
 
@@ -9333,7 +9341,25 @@ span.date-state {
 	color: #666666;
 }
 
+span.date-state.past {
+	color: #ff6e3e;
+}
 
+span.date-state.future {
+	color: #5ea957;
+}
+
+span.date-state.current {
+	color: #4b286f;
+}
+
+#portal-column-two .portlet-collection-events .date-state {
+	display: none !important;
+}
+
+body.mce-content-body p a {
+	text-decoration: underline !important;
+}
 
 
 

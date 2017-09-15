@@ -192,9 +192,9 @@
           
           <div class="title-wrapper">
             <h3 class="item-title">
-                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'past'" i18n:translate="date_past">Geweest:</span>
-                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'future'" i18n:translate="date_future">Verwacht:</span>
-                <span i18n:domain="plonetheme.kunsthalkade" class="date-state" tal:condition="python: date_state == 'current'" i18n:translate="date_current">Nu:</span>
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state past" tal:condition="python: date_state == 'past'" i18n:translate="date_past">Geweest:</span>
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state future" tal:condition="python: date_state == 'future'" i18n:translate="date_future">Verwacht:</span>
+                <span i18n:domain="plonetheme.kunsthalkade" class="date-state current" tal:condition="python: date_state == 'current'" i18n:translate="date_current">Nu:</span>
                 <a href="#"
                  tal:attributes="href itemUrl;"
                  tal:content="obj/Title"

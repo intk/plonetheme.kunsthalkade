@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plonetheme.kunsthalkade\n"
+"POT-Creation-Date: 2016-09-30 11:25+0000\n"
+"PO-Revision-Date: 2016-09-30 11:25+0000’\n"
+"Last-Translator: INTK <info@intk.com>\n"
+"Language-Team: German <info@intk.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: de\n"
+"Language-Name: German\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: plonetheme.kunsthalkade\n"
+
+#: ../object.py
+msgid 'date_future'
+msgstr "Kommend:"
+
+#: ../object.py
+msgid 'date_past'
+msgstr "Vorig:"
+
+#: ../object.py
+msgid 'date_current'
+msgstr "Jetzt:"
