@@ -24,7 +24,7 @@
       <tal:listing condition="batch">
         <div class="entries" metal:define-slot="entries">
           <tal:repeat repeat="item batch" metal:define-macro="entries">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 listing-item" tal:define="
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 listing-item" tal:define="
                 item_url item/getURL;
                 item_id item/getId;
                 item_title item/Title;
@@ -93,9 +93,12 @@
                 </article>
               </metal:block>
             </div>
-                      <tal:clearfix condition="python: number % 2 == 0" tal:define="number repeat/item/number">
-                          <div class="clearfix visible-lg visible-md"></div>
-                        </tal:clearfix> 
+                        <tal:clearfix condition="python: number % 3 == 0" tal:define="number repeat/item/number">
+                            <div class="clearfix visible-lg"></div>
+                          </tal:clearfix> 
+                        <tal:clearfix condition="python: number % 2 == 0" tal:define="number repeat/item/number">
+                            <div class="clearfix visible-md"></div>
+                          </tal:clearfix> 
 
                         <tal:clearfixmd condition="python: number % 2 == 0" tal:define="number repeat/item/number">
                           <div class="clearfix visible-sm"></div>

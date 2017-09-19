@@ -8274,7 +8274,8 @@ body.template-exhibition_view {
 	}
 
 	.entries > .year-header-wrapper:first-child {
-		display: none !important;
+		display: block !important;
+		margin-top: 0px !important;
 	}
 
 	@media(min-width: 991px) {
@@ -9360,6 +9361,21 @@ span.date-state.current {
 body.mce-content-body p a {
 	text-decoration: underline !important;
 }
+
+body.frontend.portaltype-folder, body.frontend.portaltype-collection {
+	.title-container .subheading {
+		margin-bottom: 5px;
+	}
+}
+
+body.frontend .thumb-wrapper.past-event img {
+	-webkit-filter: grayscale(1);
+	-webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+	filter: gray;
+}
+
+
 
 
 

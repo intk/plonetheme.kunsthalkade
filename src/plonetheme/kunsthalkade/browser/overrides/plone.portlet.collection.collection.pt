@@ -85,8 +85,6 @@
                                  tal:attributes="src col_images_src; class python:'tileImage'; alt colitem/Title; title colitem/Title;" /> 
                         </a> 
                       </div>
-
-
                       <div class="title-wrapper">
                         <h3 class="item-title">
                             <a href="#"
@@ -102,7 +100,6 @@
                         </div>
                       </div>
                     </div>
-                    
                   </tal:is_event>
                 </tal:collectionitem>
               </tal:resultitems>
@@ -175,7 +172,7 @@
             </tal:event_date>
           </div>
 
-          <div class="thumb-wrapper">         
+          <div class="thumb-wrapper" tal:attributes="class python: 'thumb-wrapper past-event' if is_past else 'thumb-wrapper'">         
             <a class="thumb-image" tal:condition="python: ((has_media != None and has_media != '' and 'Missing' not in str([has_media])) or item_type == 'Image')" href="" tal:attributes="href python: itemUrl+'?collection_id='+collection_id+'&b_start='+str(item_index) if collection_item != None and item_type == 'Object' else itemUrl"
               tal:define="item_img python:view.getImageObject(obj)">
 
