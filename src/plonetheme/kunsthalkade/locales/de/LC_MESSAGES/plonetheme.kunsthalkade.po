@@ -16,12 +16,12 @@ msgstr ""
 
 #: ../object.py
 msgid 'date_future'
-msgstr "Kommend:"
+msgstr "Vorschau:"
 
 #: ../object.py
 msgid 'date_past'
-msgstr "Vorig:"
+msgstr "Rückblick:"
 
 #: ../object.py
 msgid 'date_current'
-msgstr "Jetzt:"
+msgstr "Aktuell:"

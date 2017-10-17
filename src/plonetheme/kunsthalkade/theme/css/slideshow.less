@@ -16,7 +16,7 @@ body:not(.frontend).portaltype-object {
 		    bottom: 0;
 		    width: 100%;
 		    background-color: #ffffff;
-		    height: 30px;
+		    height: auto;
 
 		    p {
 		    	margin-top: 1px;
@@ -599,7 +599,7 @@ body.frontend {
 	}
 
 	.carousel-image-wrapper {
-		margin-top: -30px;
+		padding-bottom: 30px;
 	}
 
 	#slickcarousel:before {
@@ -1173,6 +1173,14 @@ body.frontend.section-frontpage {
 	#slickcarousel:before {
 		padding-bottom: 125px;
 	}
+}
+
+body.frontend:not(.section-frontpage) {
+.carousel-item-description {
+        @media(max-width: 991px) {
+                display: none !important;
+        }
+}
 }
 
 
