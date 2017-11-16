@@ -7079,7 +7079,7 @@ html.ie9 {
 
 			    .top-right-wrapper {
 			    	width: 100%;
-			    	height: 45%;
+			    	height: 60%;
 			    	padding-right: 20px;
 			    	padding-top: 20px;
 			    	max-height: 450px;
@@ -9529,6 +9529,71 @@ body.frontend.section-frontpage .carousel-image-wrapper {
 	}
 }
 
+body.frontend.portaltype-portlet-page:not(.section-frontpage) {
+	@media (min-width: 768px) {
+		#portletPageFirstColumn .portlet-item.Event {
+			width: 50% !important;
+		}
+
+		#portletPageFirstColumn .portlet-item {
+			width: 50% !important;
+			padding-left: 20px !important;
+    		padding-right: 20px !important;
+		}
+
+		#portletPageFirstColumn {
+			width: 100% !important;
+		}
+
+		#portletPageColumns #portletPageFirstColumn .portlet-item:not(.Collection) .event-wrapper p.event-date {
+			font-size: 20px !important;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		#portletPageFirstColumn .portlet-item.Event {
+			width: 33.33333333% !important;
+		}
+
+		#portletPageFirstColumn .portlet-item {
+			width: 33.33333333% !important;
+			padding-left: 20px !important;
+    		padding-right: 20px !important;
+		}
+
+		#first-column-wrapper {
+			width: 100% !important;
+		}
+
+		#portletPageFirstColumn {
+			width: 100% !important;
+		}
+
+		#portletPageFirstColumn #first-column-wrapper .portlet-item {
+			padding-left: 20px !important;
+    		padding-right: 20px !important;
+		}
+	}
+	
+	#portletPageColumns .portletFooter {
+		display: block !important;
+	}
+
+	.portletCollection .portletHeader {
+		display: block !important;
+	}
+
+	.portletCollection .show-more {
+		padding-bottom: 10px !important;
+	}
+
+	@media(max-width: 768px) {
+		#portletPageFirstColumn #first-column-wrapper .portlet-item {
+			padding-left: 20px !important;
+    		padding-right: 20px !important;
+		}
+	}
+}
 
 
 

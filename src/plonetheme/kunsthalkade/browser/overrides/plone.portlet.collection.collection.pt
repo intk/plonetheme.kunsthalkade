@@ -226,8 +226,39 @@
       </tal:is_event>
 
     </div>
+    
+    <tal:portletpage tal:condition="python: context.portal_type in ['Portlet Page'] and context.id not in ['frontpage']">
+
+      <tal:clearfix condition="python: number % 3 == 0" tal:define="number repeat/obj/number">
+        <div class="clearfix visible-lg visible-md"></div>
+      </tal:clearfix> 
+
+      <tal:clearfixmd condition="python: number % 2 == 0" tal:define="number repeat/obj/number">
+        <div class="clearfix visible-sm"></div>
+      </tal:clearfixmd>
+    </tal:portletpage>
+
+
     </tal:events>
   </div>
 
   <div class="clearfix"></div>
+
+  <footer class="portletFooter"
+            tal:condition="python:(showMore or view.include_empty_footer()) and (context.portal_type in ['Portlet Page'] and context.id not in ['frontpage'])"
+            tal:define="showMore view/data/show_more">
+        <span class="portletBottomLeft"></span>
+        <div class="formControls">
+        <span tal:condition="python:showMore">
+        <a tal:attributes="href collection_url">
+           <span class="hiddenStructure"><span tal:replace="view/data/header" /> - </span>
+           <input i18n:attributes="value more_url" type="submit" class="btn-default show-more" value="More&hellip;"/>
+        </a>
+      
+        </span>
+        </div>
+        <span class="portletBottomRight"></span>
+  </footer>
+
+  <div class="clearfix" tal:condition="python:context.portal_type in ['Portlet Page'] and context.id not in ['frontpage']"></div>
 </section>
