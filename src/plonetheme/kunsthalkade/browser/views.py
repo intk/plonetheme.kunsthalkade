@@ -483,7 +483,7 @@ class ContextToolsView(BrowserView):
 
     def getCollectionItems(self, item):
         collection = item.getObject()
-        LIMIT = 3
+        LIMIT = 2
 
         results = []
         if collection is not None:
