@@ -134,6 +134,31 @@
 
   </ul>
 
+
+  <tal:titlevertical tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(context)">
+    <tal:condrender tal:condition="is_past">
+    <div id="event-title-vertical">
+    <div class="event-title-vertical-wrapper">
+    <h1 tal:content="data/title"></h1>
+    <tal:cond condition="python:'date' not in excludes">
+        <div class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
+          <span tal:define="start_tzname data/timezone;
+                        start_utcdelta python:data.start.tzinfo.utcoffset(data.start);
+                        start_utcoffset python:(start_utcdelta.days*86400+start_utcdelta.seconds)*100/60/60;">
+            <tal:date replace="structure python:view.formatted_date(context)" />
+            <span class="timezone"
+                tal:condition="start_tzname">
+              (<tal:tzname replace="start_tzname">timezone name</tal:tzname> / UTC<tal:tzoffset replace="start_utcoffset" />)
+            </span>
+          </span>
+        </div>
+      </tal:cond>
+    </div>
+    </div>
+    </tal:condrender>
+  </tal:titlevertical>
+
+
 </tal:def>
 
 </body>

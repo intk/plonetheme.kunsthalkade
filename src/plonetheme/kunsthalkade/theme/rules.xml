@@ -131,6 +131,10 @@
       <drop css:theme="#slickcarousel" css:if-content="body.template-online_experience_view"/>
 
 
+
+
+
+    
       <!-- Header -->
       <copy attributes="style" css:theme="header.intro-header" css:content="div.leadImageBackground"/>
       <drop css:content="div.leadImage"/>
@@ -247,5 +251,23 @@
           <xsl:copy-of select="."/>
         </div>
       </replace>
+
+      <!-- Event title -->
+      <rules css:if-content=".is_event_past #event-title-vertical">
+        <replace 
+          css:theme="#event-title-vertical" 
+          css:content="#event-title-vertical" 
+          method="raw"/>
+        <drop css:content=".is_event_past #event-title-vertical"/>
+        <drop css:theme="#top-right-header"/>
+        <drop css:theme="#top-right-small"/>
+        <drop css:content="#top-right-header"/>
+        <drop css:content="#top-right-small"/>
+        <drop css:content-children=".portlet-rrssb"/>
+        <drop css:theme-children=".portlet-rrssb"/>
+      </rules>
+
+      <drop css:content="#event-title-vertical" css:if-not-content="#event-past-images"/>
+
 
 </rules>

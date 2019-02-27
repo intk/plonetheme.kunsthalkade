@@ -1,0 +1,307 @@
+<section class="portlet portletCollection"
+    i18n:domain="plone"
+    tal:define="folder_url view/folder_url;
+                plone_view context/@@plone;
+                toLocalizedTime nocall:plone_view/toLocalizedTime;
+                viewActions python:context.portal_registry.get('plone.types_use_view_action_in_listings', []);"
+    tal:attributes="class string:portlet portletCollection ${view/css_class}">
+
+  <header class="portletHeader" tal:condition="python: context.restrictedTraverse('@@context_tools').isEventPastArchive(context)">
+      <a tal:attributes="href folder_url" tal:omit-tag="not:view/data/show_more">
+          <h3 tal:content="view/data/header"></h3>
+      </a>
+  </header>
+
+  <tal:not_archive tal:condition="python: not view.show_archive() and context.restrictedTraverse('@@context_tools').isEventPastArchive(context)">
+      <div class="container-fluid" id="row-items">
+        <tal:events tal:repeat="obj view/results"
+                    tal:define="portlet_class python: 'col-lg-4 col-md-4 col-sm-6 col-xs-12 portlet-item' if context.portal_type in ['Portlet Page', 'Event', 'Document'] else 'col-lg-6 col-md-6 col-sm-6 col-xs-12 portlet-item %s'">
+
+        <div tal:attributes="class python: '%s %s %s' %(portlet_class, obj.portal_type, 'Archive' if 'online-archief' in obj.getURL() else '')" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 portlet-item"
+            tal:define="plone_view context/@@plone;
+                        oddrow repeat/obj/odd;
+                        useView python:obj.portal_type in viewActions;
+                        item_wf_state obj/review_state;
+                        has_media nocall:obj/leadMedia;
+                        item_on_display obj/object_on_display|nothing;
+                        item_wf_state_class python:'state-' + plone_view.normalizeString(item_wf_state);
+                        item_type obj/portal_type;
+                        itemUrl python:useView and obj.getURL() + '/view' and item_type != 'File' or obj.getURL();
+                        item_url python: itemUrl if item_type != 'Image' else itemUrl.split('/slideshow', 1)[0];
+                        item_type_class python:'contenttype-' + plone_view.normalizeString(item_type);
+                        item_is_event python: item_type in ['Event', 'Exhibition'];
+                        item_is_collection python: item_type in ['Collection'];
+                        item_index repeat/obj/index;
+                        number repeat/obj/number;
+                        is_archive python: 'online-archief' in obj.getURL();"
+            >
+            
+            <tal:collection tal:condition="item_is_collection">
+              <tal:collectionitems tal:define="colitems python: context.restrictedTraverse('@@context_tools').getCollectionItems(obj)">
+              <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)" tal:condition="python: len(colitems) > 0">
+                
+                  <tal:resultitems tal:repeat="colitem colitems">
+                    <tal:collectionitem
+                      tal:define="col_collection_id obj/UID;
+                                  col_useView python:colitem.portal_type in viewActions;
+                                  col_itemUrl python:useView and colitem.getURL() + '/view' or colitem.getURL();
+                                  col_item_wf_state colitem/review_state;
+                                  col_has_media nocall:colitem/leadMedia;
+                                  col_item_on_display colitem/object_on_display|nothing;
+                                  col_item_wf_state_class python:'state-' + plone_view.normalizeString(item_wf_state);
+                                  col_item_type colitem/portal_type;
+                                  col_item_type_class python:'contenttype-' + plone_view.normalizeString(item_type);
+                                  col_item_is_event python: col_item_type in ['Event', 'Exhibition']"
+                                  >
+                        <tal:is_event tal:condition="col_item_is_event">
+                        <div class="event-wrapper">
+                          <div class="date-wrapper">
+                            <tal:event_date condition="col_item_is_event"
+                              tal:define="col_is_past python: context.restrictedTraverse('@@context_tools').isEventPast(colitem)">
+                                <p class="event-date" tal:attributes="class python: 'event-date past' if col_is_past else 'event-date'">
+                                  <tal:definedates tal:define="col_event_data python: view.date_speller(colitem.start)">
+                                      <span tal:content="col_event_data/day" class="date-day"></span><br/>
+                                      <span tal:content="col_event_data/month_abbr"></span> <span tal:content="col_event_data/year"></span><br/>
+                                      <tal:differentdays tal:condition="python: col_event_data.get('hour2', '') not in ['00', '']"><span tal:content="col_event_data/hour2"></span>:<span tal:content="col_event_data/minute2"></span></tal:differentdays>
+                                  </tal:definedates>
+                                </p>
+                            </tal:event_date>
+                          </div>
+
+                          <div class="thumb-wrapper">         
+                            <a class="thumb-image" tal:condition="python: ((col_has_media != None and col_has_media != '' and 'Missing' not in str([col_has_media])) or col_item_type == 'Image')" href="" tal:attributes="href python: col_itemUrl;"
+                              tal:define="col_item_img python:view.getImageObject(colitem)">
+
+                              <div class="on-display-wrapper" tal:condition="col_item_on_display" i18n:domain="plonetheme.kunsthalkade">
+                                <div i18n:translate="object_on_display" class="label_inner">Nu te zien</div>
+                              </div>
+                              
+                              <img tal:define="col_images_src python:col_item_img;
+                                                 "
+                                     src="" alt=""
+                                     tal:attributes="src col_images_src; class python:'tileImage'; alt colitem/Title; title colitem/Title;" /> 
+                            </a> 
+                          </div>
+                          <div class="title-wrapper">
+                            <h3 class="item-title">
+                                <a href="#"
+                                 tal:attributes="href col_itemUrl;"
+                                 tal:content="colitem/Title"
+                                 >
+                                Title
+                                </a>
+                            </h3>
+
+                            <div class="item-description">
+                              <p tal:content="colitem/Description"></p>
+                            </div>
+                          </div>
+                        </div>
+                      </tal:is_event>
+                    </tal:collectionitem>
+                  </tal:resultitems>
+                  <div class="link-wrapper">
+                          <a tal:attributes="href itemUrl" tal:content="obj/Title"></a>
+                        </div>
+                
+              </div>
+              </tal:collectionitems>
+            </tal:collection>
+            
+
+            <tal:notevent tal:condition="python: not item_is_event and not item_is_collection">
+            <div class="portlet-item-wrapper" tal:attributes="class python: 'portlet-item-wrapper %s' %(item_type)">
+            
+
+            <div class="entry-wrapper">
+                <h3 class="item-title">
+                    <a href="#"
+                     tal:attributes="href python: item_url+'/@@download' if item_type == 'File' else item_url; class item_type_class;"
+                     tal:content="obj/Title"
+                     >
+                    Title
+                    </a>
+                </h3>
+              </div>
+              <div class="thumb-wrapper">         
+                <a class="thumb-image" tal:condition="python: ((has_media != None and has_media != '' and 'Missing' not in str([has_media])) or item_type == 'Image')" href="" tal:attributes="href python: itemUrl"
+                  tal:define="item_img python:view.getImageScale(obj)">
+
+                  <div class="on-display-wrapper" tal:condition="item_on_display" i18n:domain="plonetheme.kunsthalkade">
+                    <div i18n:translate="object_on_display" class="label_inner">Nu te zien</div>
+                  </div>
+                  
+                  <img tal:define="images_src python:item_img;
+                                     "
+                         src="" alt=""
+                         tal:attributes="src images_src; class python:'tileImage'; alt obj/Title; title obj/Title;" /> 
+                </a> 
+              </div>
+              
+              
+              <div>
+                <p tal:content="obj/Description" class="item-description"></p>
+              </div>
+              </div>
+          </tal:notevent>
+          
+
+          <tal:is_event tal:condition="item_is_event">
+            <div class="event-wrapper" 
+              tal:define="is_past python: context.restrictedTraverse('@@context_tools').isEventPast(obj);
+                          date_state python: context.restrictedTraverse('@@context_tools').getEventDateState(obj)">
+              <div class="date-wrapper">
+                <tal:event_date condition="item_is_event">
+                    <p class="event-date" tal:attributes="class python: 'event-date past' if is_past else 'event-date'">
+                      <tal:definedates tal:define="event_data python: view.date_speller(obj.start)">
+                        <tal:archive tal:condition="not:is_archive">
+                          <span tal:content="event_data/day" class="date-day"></span><br/>
+                          <span tal:content="event_data/month_abbr"></span> <span tal:content="event_data/year"></span><br/>
+                          <tal:differentdays tal:condition="python: event_data.get('hour2', '') not in ['00', '']"><span tal:content="event_data/hour2"></span>:<span tal:content="event_data/minute2"></span></tal:differentdays>
+                        </tal:archive>
+                        
+                      </tal:definedates>
+                    </p>
+                </tal:event_date>
+              </div>
+
+              <div class="thumb-wrapper" tal:attributes="class python: 'thumb-wrapper past-event' if is_past else 'thumb-wrapper'">         
+                <a class="thumb-image" tal:condition="python: ((has_media != None and has_media != '' and 'Missing' not in str([has_media])) or item_type == 'Image')" href="" tal:attributes="href python: itemUrl"
+                  tal:define="item_img python:view.getImageObject(obj)">
+
+                  <div class="on-display-wrapper" tal:condition="item_on_display" i18n:domain="plonetheme.kunsthalkade">
+                    <div i18n:translate="object_on_display" class="label_inner">Nu te zien</div>
+                  </div>
+                  
+                  <img tal:define="images_src python:item_img;
+                                     "
+                         src="" alt=""
+                         tal:attributes="src images_src; class python:'tileImage'; alt obj/Title; title obj/Title;" /> 
+                </a> 
+              </div>
+              
+              <div class="title-wrapper">
+                <h3 class="item-title">
+                    <span i18n:domain="plonetheme.kunsthalkade" class="date-state past" tal:condition="python: date_state == 'past'" i18n:translate="date_past">Geweest:</span>
+                    <span i18n:domain="plonetheme.kunsthalkade" class="date-state future" tal:condition="python: date_state == 'future'" i18n:translate="date_future">Verwacht:</span>
+                    <span i18n:domain="plonetheme.kunsthalkade" class="date-state current" tal:condition="python: date_state == 'current'" i18n:translate="date_current">Nu:</span>
+                    <a href="#"
+                     tal:attributes="href itemUrl;"
+                     tal:content="obj/Title"
+                     
+                     >
+                    Title
+                    </a>
+                </h3>
+
+                <tal:event condition="item_is_event">
+                  <p class="event-date" tal:attributes="class python: 'event-date past' if is_past and not is_archive else 'event-date'">
+                  <tal:date tal:condition="not:is_archive" tal:replace="structure python:view.formatted_date(obj)"/>
+                  <tal:archive tal:condition="is_archive"
+                    tal:define="event_data python: view.date_speller(obj.start)">
+                    <span i18n:translate="archive">Archief</span>: <span tal:content="event_data/year"></span>
+                  </tal:archive>
+
+                  <span tal:condition="obj/location" i18n:translate="label_event_byline_location">&mdash;
+                    <span tal:content="string:${item/location}" class="location" i18n:name="location">Oslo</span>,
+                  </span>
+                  </p>
+                </tal:event>
+
+                <div class="item-description">
+                  <p tal:content="obj/Description"></p>
+                </div>
+              </div>
+            </div>
+            
+          </tal:is_event>
+
+        </div>
+        
+        <tal:portletpage tal:condition="python: context.portal_type in ['Portlet Page'] and context.id not in ['frontpage']">
+
+          <tal:clearfix condition="python: number % 3 == 0" tal:define="number repeat/obj/number">
+            <div class="clearfix visible-lg visible-md"></div>
+          </tal:clearfix> 
+
+          <tal:clearfixmd condition="python: number % 2 == 0" tal:define="number repeat/obj/number">
+            <div class="clearfix visible-sm"></div>
+          </tal:clearfixmd>
+        </tal:portletpage>
+
+
+        </tal:events>
+      </div>
+
+
+      <div class="clearfix"></div>
+
+      <!--<header class="portletHeader downloads" tal:condition="python: getattr(context, 'language', 'nl') in ['nl', '']">
+        <h3>Ook interessant</h3>
+      </header>-->
+
+      <div class="clearfix" tal:condition="python:context.portal_type in ['Portlet Page'] and context.id not in ['frontpage']"></div>
+  </tal:not_archive>
+
+  <tal:is_archive tal:condition="python: view.show_archive() and context.restrictedTraverse('@@context_tools').isEventPastArchive(context)">
+    <tal:results define="batch view/results">
+    <tal:listing condition="batch">
+        <div class="entries online-experience"
+          tal:define="items python: view.pairItems(batch)">
+          <tal:repeat repeat="current_item items">
+            <tal:wrapper tal:define="
+                item python: current_item['item'];
+                item_url item/getURL;
+                item_title item/Title;
+                item_description item/Description;
+                has_media nocall:item/leadMedia;
+                item_link python:item_url;
+                item_type item/portal_type;
+                item_image python: view.getImageScale(item, 'large');
+                image_properties python: view.getImageProperties(item);
+                item_title python: image_properties['title'] if item_type == 'Image' else item_title;
+                item_link python: image_properties['link'] if item_type == 'Image' else item_link;
+                item_description python: image_properties['description'] if item_type == 'Image' else item_description;"
+                >
+              <metal:block define-slot="entry">
+
+              <tal:single tal:condition="python: current_item['position'] == 'single'">
+                <div class="col-xs-12 col-sm-12 col-lg-12" tal:attributes="class python: 'col-xs-12 col-sm-12 col-lg-12 single %s' %(current_item['right'])">
+                  <article class="entry" tal:attributes="class python: 'entry %s %s' %(current_item['size'], current_item['orientation'])">
+                    <a href="#" class="image-wrapper" tal:attributes="href item_link">
+                      <img src="" class="line-image" tal:attributes="src item_image"/>
+                      <span class="inner">
+                        <span class="helper"></span>
+                        <span class="info">
+                          <p tal:content="item_description"></p>
+                        </span>
+                      </span>
+                    </a>
+                  </article>
+                </div>
+              </tal:single>
+
+              <tal:pair tal:condition="python: current_item['position'] == 'pair'">
+                <div class="col-xs-12 col-sm-12 col-lg-6" tal:attributes="class python: 'col-xs-12 col-sm-12 col-md-6 col-lg-6 pair-landscape %s %s' %(current_item['size'], current_item['bottom']) if current_item['size'] == 'small' and current_item['orientation'] == 'landscape' else 'col-xs-12 col-sm-12 col-md-6 col-lg-6 %s %s pair-portrait' %(current_item['size'], current_item['bottom'])">
+                  <article class="entry" tal:attributes="class python: 'entry %s %s' %(current_item['size'], current_item['orientation'])">
+                    <a href="#" class="image-wrapper" tal:attributes="href item_link">
+                    <img src="" class="line-image" tal:attributes="src item_image; title item_title; alt item_title"/>
+                    <span class="inner">
+                        <span class="helper"></span>
+                        <span class="info">
+                          <p tal:content="item_description"></p>
+                        </span>
+                    </span>
+                  </article>
+                </div>
+                <div class="clearfix" tal:condition="python: current_item['clearfix']"></div>
+              </tal:pair>
+              </metal:block>
+            </tal:wrapper>
+          </tal:repeat>
+        </div>
+      </tal:listing>
+      </tal:results>
+  </tal:is_archive>
+
+</section>

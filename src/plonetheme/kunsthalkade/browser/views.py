@@ -21,6 +21,79 @@ from zope.intid.interfaces import IIntIds
 from zope.security import checkPermission
 from zc.relation.interfaces import ICatalog
 from plone.memoize.view import memoize
+from collective.portlet.foldercontents.behaviors.events import IDownloads
+
+
+
+def copy_slideshow(obj, language='en'):
+    import plone.api
+    import transaction
+    from plone.app.multilingual.interfaces import ITranslationManager
+
+    obj_id = getattr(obj, 'id', 'Unknown')
+    if obj:
+        if ITranslationManager(obj).has_translation(language):
+            obj_translated = ITranslationManager(obj).get_translation(language)
+            if 'slideshow' in obj:
+                slideshow_original = obj['slideshow']
+            else:
+                print "[%s] Object does not have a slideshow" %(obj_id)
+                return False
+
+            if len(slideshow_original):
+                if 'slideshow' in obj_translated:
+                    slideshow_translated = obj_translated['slideshow']
+                    """ Delete items in the slideshow """
+
+                    if len(slideshow_translated):
+                        print "[%s] Deleting images in the object translation..." %(obj_id)
+                        for slideshow_item_id in slideshow_translated:
+                            slideshow_item = slideshow_translated[slideshow_item_id]
+                            plone.api.content.delete(obj=slideshow_item, check_linkintegrity=False)
+                        print "[%s] Images deleted in the object translation." %(obj_id)
+
+                    print "[%s] Copying images from original to translation language=%s ..." %(obj_id, language)
+                    for slideshow_original_item_id in slideshow_original:
+                        slideshow_item_original = slideshow_original[slideshow_original_item_id]
+                        plone.api.content.copy(source=slideshow_item_original, target=slideshow_translated)
+                    print "[%s] Images copied from original to translation language=%s" %(obj_id, language)
+
+                    obj_translated.reindexObject()
+                    transaction.get().commit()
+                    return True
+                else:
+                    print "[%s] Object translation does not have a slideshow folder" %(obj_id)
+                    return False
+            else:
+                print "[%s] Object does not have items in the slideshow" %(obj_id)
+                return False
+        else:
+            print "[%s] Object has no translation in the language=%s" %(obj_id, language)
+            return False
+    else:
+        print "[%s] No object to copy the slideshow from" %(obj_id)
+        return False
+
+    return True
+
+
+def fix_archive_slideshows():
+
+    import plone.api
+
+    catalog = plone.api.portal.get().portal_catalog
+    events = catalog(portal_type="Event", Language="nl")
+    total = len(events)
+    curr = 0
+    
+    for brain in events:
+        curr += 1
+        print "Fixing object %s / %s" %(curr, total)
+        obj = brain.getObject()
+        copy_slideshow(obj=obj, language="en")
+        copy_slideshow(obj=obj, language="de")
+
+    return True
 
 def generate_person_title(firstname, middlename, lastname, nationality, year):
     names = ""
@@ -481,6 +554,29 @@ class SimpleListingView(CollectionView):
 
 class ContextToolsView(BrowserView):
 
+    def getArtists(self, item):
+        if getattr(item, 'portal_type', None) == "Event":
+            relatedItems = getattr(item, 'relatedItems', None)
+            if relatedItems:
+                artists = [relvalue.to_object for relvalue in relatedItems]
+
+                listartists = []
+
+                for artist in artists:
+                    if getattr(artist, 'portal_type', None) == "Person":
+                        name = "%s %s" %(getattr(artist, 'firstname', ''), getattr(artist, 'lastname', ''))
+                        name = name.strip()
+                        if name and name not in listartists:
+                            listartists.append(name)
+                
+                structuredlist = ', '.join(listartists)
+                return structuredlist
+            else:
+                return ""
+        
+        else:
+            return ""
+
     def getCollectionItems(self, item):
         collection = item.getObject()
         LIMIT = 2
@@ -499,6 +595,18 @@ class ContextToolsView(BrowserView):
             if LIMIT and LIMIT > 0:
                 results = results[:LIMIT]
         return results
+
+    def isEventPastArchive(self, event):
+        if self.isEventPast(event):
+            if IDownloads.providedBy(event):
+                if 'downloads' in event:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
 
     def isEventPast(self, event):
         """ Checks if the event is already past """
